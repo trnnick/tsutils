@@ -11,6 +11,6 @@ To install use:
 
 > if (!require("devtools")){install.packages("devtools")}
 
-> devtools::install_github("trnnick/nnfor")
+> devtools::install_github("trnnick/tsutils")
 
 _Happy forecasting!_
