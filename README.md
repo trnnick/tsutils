@@ -8,9 +8,8 @@ Development repository for the tsutils package for R.
 <!-- Stable version can be found at: https://cran.r-project.org/web/packages/tsutils/index.html -->
 
 To install use:
-
-> if (!require("devtools")){install.packages("devtools")}
-
-> devtools::install_github("trnnick/tsutils")
-
+```
+if (!require("devtools")){install.packages("devtools")}
+devtools::install_github("trnnick/tsutils")
+```
 _Happy forecasting!_
