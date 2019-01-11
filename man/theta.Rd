@@ -103,7 +103,10 @@ thief(referrals,forecastfunction=theta.thief)
 
 }
 \references{
-Assimakopoulos, V., & Nikolopoulos, K. (2000). The theta model: a decomposition approach to forecasting. International journal of forecasting, 16(4), 521-530.
+\itemize{
+\item{The original Theta method was proposed by: Assimakopoulos, V., & Nikolopoulos, K. (2000). The theta model: a decomposition approach to forecasting. International journal of forecasting, 16(4), 521-530. See details in how the implementation here differs.}
+\item{The THieF forecasting methodology used for \code{theta.thief} is proposed by: Athanasopoulos, G., Hyndman, R. J., Kourentzes, N., & Petropoulos, F. (2017). Forecasting with temporal hierarchies. European Journal of Operational Research, 262(1), 60-74.}
+}
 }
 \author{
 Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

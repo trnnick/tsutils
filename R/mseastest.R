@@ -41,7 +41,7 @@ mseastest <- function(y,m=NULL,type=c("pearson","spearman","kendall"),cma=NULL,
 {
 
   # Defaults
-  type <- type[1]
+  type <- match.arg(type,c("pearson","spearman","kendall"))
   outplot <- outplot[1]
 
   # Get m (seasonality)
