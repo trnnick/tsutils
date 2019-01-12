@@ -57,6 +57,11 @@ The **tsutils** package provides functions to support various aspects of time se
 * Ivan Svetunkov - (https://forecasting.svetunkov.ru/)
 * Oliver Schaer - (https://www.lancaster.ac.uk/lums/people/oliver-schaer)
 
+## References
+References are provided where necessary at the help file of each function. The overall modelling philosophy is reflected in:
+
+Ord K., Fildes R., Kourentzes N. (2017) [Principles of Business Forecasting, 2e](http://kourentzes.com/forecasting/2017/10/16/new-forecasting-book-principles-of-business-forecasting-2e/). Wessex Press Publishing Co.
+
 ## License
 
 This project is licensed under the GPL3 License
