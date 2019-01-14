@@ -59,7 +59,7 @@ lambdaseq <- function(x, y, weight = NA, alpha = 1, standardise = TRUE,
     lambda[length(lambda)] <-  lambdaMin;
   }
 
-  return(list(lambda, "lambdaMin" = lambdaMin,
+  return(list("lambda" = lambda, "lambdaMin" = lambdaMin,
               "lambdaMax" = lambdaMax, "nullMSE" = lambdaFit$nullMSE))
 }
 
