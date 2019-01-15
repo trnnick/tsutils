@@ -1,7 +1,7 @@
 Package: tsutils
 Type: Package
 Title: Time Series Exploration, Modelling and Forecasting
-Version: 0.9.0
+Version: 0.9.1
 Authors@R: c(
     person("Nikolaos", "Kourentzes",, "nikolaos@kourentzes.com", c("aut", "cre")),
     person("Ivan", "Svetunkov",, "ivan@svetunkov.ru", c("ctb")),

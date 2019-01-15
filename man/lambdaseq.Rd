@@ -43,7 +43,7 @@ lambda <- lambdaseq(x, y)$lambda
 
 \dontrun{
   library(glmnet)
-  fit.lasso <- cv.glmnet(y, x, lambda = lambda)
+  fit.lasso <- cv.glmnet(x, y, lambda = lambda)
   coef.lasso <- coef(fit.lasso, s = "lambda.1se")
 }
 
