@@ -21,6 +21,12 @@
 #' \item{\code{\link{theta}}}{: Theta method.}
 #' }
 #'
+#' @section Hierarchical time series:
+#' \itemize{
+#' \item{\code{\link{Sthief}}}{: temporal hierarchy S matrix.}
+#' \item{\code{\link{plotSthief}}}{: plot temporal hierarchy S matrix.}
+#' }
+#'
 #' @section Forecasting process modelling:
 #' \itemize{
 #' \item{\code{\link{abc}}}{: ABC analysis.}

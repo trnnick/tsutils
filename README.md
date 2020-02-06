@@ -37,6 +37,10 @@ The **tsutils** package provides functions to support various aspects of time se
 * `seasdummy`: create seasonal dummies.
 * `theta`: Theta method.
 
+#### Hierarchical time series:
+* `Sthief`: temporal hierarchy S matrix.
+* `plotSthief`: plot temporal hierarchy S matrix.
+
 #### Forecasting process modelling:
 * `abc`: ABC analysis.
 * `xyz`: XYZ analysis.

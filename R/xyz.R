@@ -48,7 +48,7 @@ xyz <- function(x,m=NULL,prc=c(0.2,0.3,0.5),type=c("naive","ets","cv")){
         n <- length(x)
     }
 
-    if (sum(dim(x)==1)>0 | class(x)=="numeric"){
+    if (sum(dim(x)==1)>0 | any(class(x)=="numeric")){
         x.mean <- x
         x.model <- NULL
     } else {

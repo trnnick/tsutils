@@ -1,3 +1,7 @@
+# VERSION 0.9.2 (06 Feb 2020)
+- Added functions Sthief and plotSthief.
+- Fixed class() check for abc.R, xyz.R and theta.R
+
 # VERSION 0.9.1
 - Fixed output list names for lambdaseq.
 - Fixed example for lambdaseq.

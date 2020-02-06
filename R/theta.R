@@ -74,7 +74,7 @@ theta <- function(y,m=NULL,sign.level=0.05,
 
   # Get m (seasonality)
   if (is.null(m)){
-    if (class(y) == "ts"){
+    if (any(class(y) == "ts")){
       m <- frequency(y)
     } else {
       stop("Seasonality not defined (y not ts object).")
@@ -234,7 +234,7 @@ theta <- function(y,m=NULL,sign.level=0.05,
   }
   costf <- rbind(cost0,cost2,costs)
   rownames(costf) <- c("Theta0","Theta2","Seasonal")
-  if (class(y) == "ts"){
+  if (any(class(y) == "ts")){
     in.fit <- ts(in.fit,frequency=m,end=end(y))
     theta0 <- ts(theta0,frequency=m,end=end(y))
     theta2 <- ts(theta2,frequency=m,end=end(y))

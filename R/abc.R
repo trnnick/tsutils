@@ -32,7 +32,7 @@
 
 abc <- function(x,prc=c(0.2,0.3,0.5)){
 
-    if (sum(dim(x)==1)>0 | class(x)=="numeric"){
+    if (sum(dim(x)==1)>0 | any(class(x)=="numeric")){
         x.mean <- x
     } else {
         x.mean <- colMeans(x, na.rm = TRUE)

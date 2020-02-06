@@ -31,6 +31,14 @@ The \pkg{tsutils} package provides functions to support various aspects of time 
 }
 }
 
+\section{Hierarchical time series}{
+
+\itemize{
+\item{\code{\link{Sthief}}}{: temporal hierarchy S matrix.}
+\item{\code{\link{plotSthief}}}{: plot temporal hierarchy S matrix.}
+}
+}
+
 \section{Forecasting process modelling}{
 
 \itemize{
