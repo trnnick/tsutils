@@ -1,3 +1,5 @@
-
+.Rhistory
+.RData
 sync.ffs_db
 *.ffs_db
+.Rproj.user

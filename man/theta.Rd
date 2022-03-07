@@ -9,8 +9,8 @@
 \usage{
 theta(y, m = NULL, sign.level = 0.05, cost0 = c("MSE", "MdSE", "MAE",
   "MdAE"), cost2 = c("MSE", "MdSE", "MAE", "MdAE"), costs = c("MSE",
-  "MdSE", "MAE", "MdAE"), multiplicative = c("multiplicative",
-  "additive", "auto"), cma = NULL, outliers = NULL)
+  "MdSE", "MAE", "MdAE"), multiplicative = c("multiplicative", "additive",
+  "auto"), cma = NULL, outliers = NULL)
 
 \method{forecast}{theta}(object, h = NULL, ...)
 

@@ -54,7 +54,8 @@
 #'
 #' @importFrom graphics plot lines par points polygon axis image abline box text boxplot legend mtext
 #' @importFrom stats frequency friedman.test qtukey na.exclude sd ts pbinom median density quantile start cor.test deltat end optim time tsp
-#' @importFrom forecast ets forecast.ets Arima forecast
+#' @importFrom forecast ets Arima
+#' @importFrom generics forecast
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom grDevices colorRampPalette gray rgb rainbow
 #' @importFrom utils tail head

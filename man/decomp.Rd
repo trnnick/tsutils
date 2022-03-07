@@ -4,9 +4,9 @@
 \alias{decomp}
 \title{Classical time series decomposition}
 \usage{
-decomp(y, m = NULL, s = NULL, trend = NULL, outplot = c(FALSE,
-  TRUE), decomposition = c("multiplicative", "additive", "auto"),
-  h = 0, type = c("mean", "median", "pure.seasonal"), w = NULL)
+decomp(y, m = NULL, s = NULL, trend = NULL, outplot = c(FALSE, TRUE),
+  decomposition = c("multiplicative", "additive", "auto"), h = 0,
+  type = c("mean", "median", "pure.seasonal"), w = NULL)
 }
 \arguments{
 \item{y}{input time series. Can be \code{ts} object.}
