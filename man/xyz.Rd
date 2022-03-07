@@ -4,8 +4,7 @@
 \alias{xyz}
 \title{XYZ analysis}
 \usage{
-xyz(x, m = NULL, prc = c(0.2, 0.3, 0.5), type = c("naive", "ets",
-  "cv"))
+xyz(x, m = NULL, prc = c(0.2, 0.3, 0.5), type = c("naive", "ets", "cv"))
 }
 \arguments{
 \item{x}{this can either be an array, where each column is a series, or a vector of values. If \code{x} is a vector of values forecastability is not calculated and the input is used as such.}

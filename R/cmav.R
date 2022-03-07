@@ -20,6 +20,7 @@
 #' @examples
 #' cmav(referrals,outplot=TRUE)
 #'
+#' @importFrom forecast ets
 #' @export cmav
 
 cmav <- function(y,ma=NULL,fill=c(TRUE,FALSE),outplot=c(FALSE,TRUE),fast=c(TRUE,FALSE)){
@@ -68,20 +69,20 @@ cmav <- function(y,ma=NULL,fill=c(TRUE,FALSE),outplot=c(FALSE,TRUE),fast=c(TRUE,
   if (fill == TRUE){
     if (fast == FALSE){
       if ((n-mlbounds[2]) >= 1){
-        cma[(mlbounds[2]+1):n] <- as.vector(forecast::forecast.ets(forecast::ets(cma[(mlbounds[1]:mlbounds[2])],
-                                                       model="ZZN"),h=(n-mlbounds[2]))$mean)
+        cma[(mlbounds[2]+1):n] <- as.vector(forecast(ets(cma[(mlbounds[1]:mlbounds[2])],
+                                                         model="ZZN"),h=(n-mlbounds[2]))$mean)
       }
       if ((mlbounds[1]-1) >= 1){
-      cma[1:(mlbounds[1]-1)] <- rev(as.vector(forecast::forecast.ets(forecast::ets(rev(cma[(mlbounds[1]:mlbounds[2])]),
-                                                           model="ZZN"),h=(mlbounds[1]-1))$mean))
+        cma[1:(mlbounds[1]-1)] <- rev(as.vector(forecast(ets(rev(cma[(mlbounds[1]:mlbounds[2])]),
+                                                             model="ZZN"),h=(mlbounds[1]-1))$mean))
       }
     } else {
-      fit <- forecast::ets(cma[(mlbounds[1]:mlbounds[2])],model="AZN")
+      fit <- ets(cma[(mlbounds[1]:mlbounds[2])],model="AZN")
       if ((n-mlbounds[2]) >= 1){
-        cma[(mlbounds[2]+1):n] <- as.vector(forecast::forecast.ets(fit,h=(n-mlbounds[2]))$mean)
+        cma[(mlbounds[2]+1):n] <- as.vector(forecast(fit,h=(n-mlbounds[2]))$mean)
       }
       if ((mlbounds[1]-1) >= 1){
-        cma[1:(mlbounds[1]-1)] <- rev(as.vector(forecast::forecast.ets(forecast::ets(rev(cma[mlbounds[1]:mlbounds[2]]),
+        cma[1:(mlbounds[1]-1)] <- rev(as.vector(forecast(ets(rev(cma[mlbounds[1]:mlbounds[2]]),
                                                              fit,use.initial.values=FALSE),h=(mlbounds[1]-1))$mean))
       }
     }

@@ -4,8 +4,7 @@
 \alias{seasdummy}
 \title{Create seasonal dummy variables.}
 \usage{
-seasdummy(n, m = NULL, y = NULL, type = c("bin", "trg"),
-  full = c(FALSE, TRUE))
+seasdummy(n, m = NULL, y = NULL, type = c("bin", "trg"), full = c(FALSE, TRUE))
 }
 \arguments{
 \item{n}{number of observations to create.}
