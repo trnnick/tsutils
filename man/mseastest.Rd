@@ -4,8 +4,15 @@
 \alias{mseastest}
 \title{Multiplicative seasonality test}
 \usage{
-mseastest(y, m = NULL, type = c("pearson", "spearman", "kendall"),
-  cma = NULL, sn = 1, alpha = 0.05, outplot = c(0, 1, 2))
+mseastest(
+  y,
+  m = NULL,
+  type = c("pearson", "spearman", "kendall"),
+  cma = NULL,
+  sn = 1,
+  alpha = 0.05,
+  outplot = c(0, 1, 2)
+)
 }
 \arguments{
 \item{y}{input time series. Can be \code{ts} object.}

@@ -4,8 +4,12 @@
 \alias{leadtrail}
 \title{Remove leading/training zeros/NAs}
 \usage{
-leadtrail(x, rm = c("zeros", "na"), lead = c(TRUE, FALSE),
-  trail = c(TRUE, FALSE))
+leadtrail(
+  x,
+  rm = c("zeros", "na"),
+  lead = c(TRUE, FALSE),
+  trail = c(TRUE, FALSE)
+)
 }
 \arguments{
 \item{x}{vector of values to check.}

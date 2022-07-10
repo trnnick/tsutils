@@ -33,7 +33,7 @@ abcxyz(abc(x),xyz(x,type="cv"))
 
 }
 \references{
-Ord K., Fildes R., Kourentzes N. (2017) \href{http://kourentzes.com/forecasting/2017/10/16/new-forecasting-book-principles-of-business-forecasting-2e/}{Principles of Business Forecasting, 2e}. \emph{Wessex Press Publishing Co.}, p.515-518.
+Ord K., Fildes R., Kourentzes N. (2017) \href{https://kourentzes.com/forecasting/2017/10/16/new-forecasting-book-principles-of-business-forecasting-2e/}{Principles of Business Forecasting, 2e}. \emph{Wessex Press Publishing Co.}, p.515-518.
 }
 \seealso{
 \code{\link{abc}}, \code{\link{xyz}}.

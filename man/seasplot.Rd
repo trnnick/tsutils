@@ -4,10 +4,19 @@
 \alias{seasplot}
 \title{Seasonal plots with simplistic trend/season tests}
 \usage{
-seasplot(y, m = NULL, s = NULL, trend = NULL, colour = NULL,
-  alpha = 0.05, outplot = c(1, 0, 2, 3, 4, 5),
-  decomposition = c("multiplicative", "additive", "auto"), cma = NULL,
-  labels = NULL, ...)
+seasplot(
+  y,
+  m = NULL,
+  s = NULL,
+  trend = NULL,
+  colour = NULL,
+  alpha = 0.05,
+  outplot = c(1, 0, 2, 3, 4, 5),
+  decomposition = c("multiplicative", "additive", "auto"),
+  cma = NULL,
+  labels = NULL,
+  ...
+)
 }
 \arguments{
 \item{y}{input time series. Can be \code{ts} object.}

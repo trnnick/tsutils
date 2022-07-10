@@ -1,3 +1,7 @@
+# VERSION 0.9.3 (07 Jul 2022)
+- Recompiled for new version of R
+- Added more data input filters for nemenyi.
+
 # VERSION 0.9.2 (06 Feb 2020)
 - Added functions Sthief and plotSthief.
 - Fixed class() check for abc.R, xyz.R and theta.R

@@ -4,9 +4,17 @@
 \alias{decomp}
 \title{Classical time series decomposition}
 \usage{
-decomp(y, m = NULL, s = NULL, trend = NULL, outplot = c(FALSE,
-  TRUE), decomposition = c("multiplicative", "additive", "auto"),
-  h = 0, type = c("mean", "median", "pure.seasonal"), w = NULL)
+decomp(
+  y,
+  m = NULL,
+  s = NULL,
+  trend = NULL,
+  outplot = c(FALSE, TRUE),
+  decomposition = c("multiplicative", "additive", "auto"),
+  h = 0,
+  type = c("mean", "median", "pure.seasonal"),
+  w = NULL
+)
 }
 \arguments{
 \item{y}{input time series. Can be \code{ts} object.}
@@ -50,7 +58,7 @@ decomp(referrals)
 
 }
 \references{
-Ord K., Fildes R., Kourentzes N. (2017) \href{http://kourentzes.com/forecasting/2017/10/16/new-forecasting-book-principles-of-business-forecasting-2e/}{Principles of Business Forecasting, 2e}. \emph{Wessex Press Publishing Co.}, p.106-111.
+Ord K., Fildes R., Kourentzes N. (2017) \href{https://kourentzes.com/forecasting/2017/10/16/new-forecasting-book-principles-of-business-forecasting-2e/}{Principles of Business Forecasting, 2e}. \emph{Wessex Press Publishing Co.}, p.106-111.
 }
 \author{
 Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

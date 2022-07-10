@@ -4,8 +4,12 @@
 \alias{trendtest}
 \title{Test a time series for trend}
 \usage{
-trendtest(y, extract = c("FALSE", "TRUE"), type = c("aicc", "cs"),
-  mta = c(FALSE, TRUE))
+trendtest(
+  y,
+  extract = c("FALSE", "TRUE"),
+  type = c("aicc", "cs"),
+  mta = c(FALSE, TRUE)
+)
 }
 \arguments{
 \item{y}{a time series that must be of either \code{ts} or \code{msts} class.}
@@ -34,7 +38,7 @@ trendtest(referrals,TRUE)
 
 }
 \references{
-The multiple temporal aggregation follows the construction approach suggested by Kourentzes, N., Petropoulos, F., & Trapero, J. R. (2014). \href{http://kourentzes.com/forecasting/2014/04/19/improving-forecasting-by-estimating-time-series-structural-components-across-multiple-frequencies/}{Improving forecasting by estimating time series structural components across multiple frequencies}. International Journal of Forecasting, 30(2), 291-302.
+The multiple temporal aggregation follows the construction approach suggested by Kourentzes, N., Petropoulos, F., & Trapero, J. R. (2014). \href{https://kourentzes.com/forecasting/2014/04/19/improving-forecasting-by-estimating-time-series-structural-components-across-multiple-frequencies/}{Improving forecasting by estimating time series structural components across multiple frequencies}. International Journal of Forecasting, 30(2), 291-302.
 }
 \author{
 Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

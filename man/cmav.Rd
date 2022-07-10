@@ -4,8 +4,13 @@
 \alias{cmav}
 \title{Centred moving average}
 \usage{
-cmav(y, ma = NULL, fill = c(TRUE, FALSE), outplot = c(FALSE, TRUE),
-  fast = c(TRUE, FALSE))
+cmav(
+  y,
+  ma = NULL,
+  fill = c(TRUE, FALSE),
+  outplot = c(FALSE, TRUE),
+  fast = c(TRUE, FALSE)
+)
 }
 \arguments{
 \item{y}{input time series. Can be \code{ts} or \code{msts} object.}
@@ -29,7 +34,7 @@ cmav(referrals,outplot=TRUE)
 
 }
 \references{
-Ord K., Fildes R., Kourentzes N. (2017) \href{http://kourentzes.com/forecasting/2017/10/16/new-forecasting-book-principles-of-business-forecasting-2e/}{Principles of Business Forecasting, 2e}. \emph{Wessex Press Publishing Co.}, p.109.
+Ord K., Fildes R., Kourentzes N. (2017) \href{https://kourentzes.com/forecasting/2017/10/16/new-forecasting-book-principles-of-business-forecasting-2e/}{Principles of Business Forecasting, 2e}. \emph{Wessex Press Publishing Co.}, p.109.
 }
 \author{
 Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

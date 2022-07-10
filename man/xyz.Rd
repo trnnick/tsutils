@@ -4,8 +4,7 @@
 \alias{xyz}
 \title{XYZ analysis}
 \usage{
-xyz(x, m = NULL, prc = c(0.2, 0.3, 0.5), type = c("naive", "ets",
-  "cv"))
+xyz(x, m = NULL, prc = c(0.2, 0.3, 0.5), type = c("naive", "ets", "cv"))
 }
 \arguments{
 \item{x}{this can either be an array, where each column is a series, or a vector of values. If \code{x} is a vector of values forecastability is not calculated and the input is used as such.}
@@ -42,7 +41,7 @@ plot(z)
 
 }
 \references{
-Ord K., Fildes R., Kourentzes N. (2017) \href{http://kourentzes.com/forecasting/2017/10/16/new-forecasting-book-principles-of-business-forecasting-2e/}{Principles of Business Forecasting, 2e}. \emph{Wessex Press Publishing Co.}, p.515-518.
+Ord K., Fildes R., Kourentzes N. (2017) \href{https://kourentzes.com/forecasting/2017/10/16/new-forecasting-book-principles-of-business-forecasting-2e/}{Principles of Business Forecasting, 2e}. \emph{Wessex Press Publishing Co.}, p.515-518.
 }
 \seealso{
 \code{\link{abc}}, \code{\link{plot.abc}}, \code{\link{abcxyz}}.
