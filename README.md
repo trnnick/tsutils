@@ -5,8 +5,9 @@ Functions for time series exploration, modelling and forecasting for R: tsutils 
 
 
 Development repository for the tsutils package for R.
-
 Stable version can be found at: https://cran.r-project.org/package=tsutils
+
+<img src="https://github.com/trnnick/tsutils/blob/9422875d76db8e5a9b1fd3333f34c25448768794/hex-tsutils.png" height="150"/>
 
 ## Installing
 
