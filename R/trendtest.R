@@ -15,7 +15,7 @@
 #'
 #' @details All tests are performed at 5% significance level. When exponential smoothing is used the following three models are compared: ETS(A,N,N), ETS(A,A,N), ETS(A,Ad,N).
 #'
-#' @references The multiple temporal aggregation follows the construction approach suggested by Kourentzes, N., Petropoulos, F., & Trapero, J. R. (2014). \href{http://kourentzes.com/forecasting/2014/04/19/improving-forecasting-by-estimating-time-series-structural-components-across-multiple-frequencies/}{Improving forecasting by estimating time series structural components across multiple frequencies}. International Journal of Forecasting, 30(2), 291-302.
+#' @references The multiple temporal aggregation follows the construction approach suggested by Kourentzes, N., Petropoulos, F., & Trapero, J. R. (2014). \href{https://kourentzes.com/forecasting/2014/04/19/improving-forecasting-by-estimating-time-series-structural-components-across-multiple-frequencies/}{Improving forecasting by estimating time series structural components across multiple frequencies}. International Journal of Forecasting, 30(2), 291-302.
 #'
 #' @author Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.
 #'

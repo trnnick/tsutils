@@ -2,10 +2,10 @@
 #'
 #' Calculates the \code{lambdaMax} value, which is the penalty term (lambda) beyond which coefficients are guaranteed to be all zero and provides a sequence of \code{nLambda} values to \code{lambdaMin} in logarithmic descent.
 #'
-#' @param x matrix of regressors. See \code{\link[glmnet]{glmnet}}.
-#' @param y response variable. See \code{\link[glmnet]{glmnet}}.
-#' @param weight vector of \code{length(nrow(y))} for weighted LASSO estimation. See \code{\link[glmnet]{glmnet}}.
-#' @param alpha elastic net mixing value. See \code{\link[glmnet]{glmnet}}.
+#' @param x matrix of regressors. See \code{glmnet}.
+#' @param y response variable. See \code{glmnet}.
+#' @param weight vector of \code{length(nrow(y))} for weighted LASSO estimation. See \code{glmnet}.
+#' @param alpha elastic net mixing value. See \code{glmnet}.
 #' @param standardise if \code{TRUE}, then variables are standardised.
 #' @param lambdaRatio ratio between \code{lambdaMax} and \code{lambdaMin}. That is, \code{lambdaMin <- lambdaMax * lambdaRatio}.
 #' @param nLambda length of the lambda sequence.

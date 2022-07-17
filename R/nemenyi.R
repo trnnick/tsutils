@@ -35,7 +35,7 @@
 #' @references
 #' \itemize{
 #' \item{The tests are deailed by Hollander, M., Wolfe, D.A. and Chicken, E. (2014) Nonparametric Statistical Methods. 3rd Edition, John Wiley & Sons, Inc., New York.}
-#' \item{The \emph{line} plot is introduced \href{http://kourentzes.com/forecasting/wp-content/uploads/2014/04/ISF2012_Tests_Kourentzes.pdf}{here} and a first example of its use, along with a short description is provided by Kourentzes, N. (2013). \href{http://kourentzes.com/forecasting/2013/04/19/intermittent-demand-forecasts-with-neural-networks/}{Intermittent demand forecasts with neural networks}. International Journal of Production Economics, 143(1), 198-206.}
+#' \item{The \emph{line} plot is introduced \href{https://kourentzes.com/forecasting/wp-content/uploads/2014/04/ISF2012_Tests_Kourentzes.pdf}{here} and a first example of its use, along with a short description is provided by Kourentzes, N. (2013). \href{https://kourentzes.com/forecasting/2013/04/19/intermittent-demand-forecasts-with-neural-networks/}{Intermittent demand forecasts with neural networks}. International Journal of Production Economics, 143(1), 198-206.}
 #' \item{The \emph{matrix} plot is introduced by Kourentzes, N., & Athanasopoulos, G. (2018). Cross-temporal coherent forecasts for Australian tourism (No. 24/18). Monash University, Department of Econometrics and Business Statistics.}
 #' \item{The \emph{MCB} plot is described by Koning, A. J., Franses, P. H., Hibon, M., & Stekler, H. O. (2005). The M3 competition: Statistical tests of the results. International Journal of Forecasting, 21(3), 397-409.}
 #' }
@@ -64,6 +64,7 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
     if (length(dim(data)) != 2){
         stop("Data must be organised as methods in columns and observations in rows.")
     }
+    data <- as.matrix(data)
     data <- na.exclude(data)
     rows.number <- nrow(data)
     cols.number <- ncol(data)

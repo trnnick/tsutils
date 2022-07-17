@@ -4,17 +4,25 @@
 \alias{lambdaseq}
 \title{Generate sequence of lambda for LASSO regression}
 \usage{
-lambdaseq(x, y, weight = NA, alpha = 1, standardise = TRUE,
-  lambdaRatio = 1e-04, nLambda = 100, addZeroLambda = FALSE)
+lambdaseq(
+  x,
+  y,
+  weight = NA,
+  alpha = 1,
+  standardise = TRUE,
+  lambdaRatio = 1e-04,
+  nLambda = 100,
+  addZeroLambda = FALSE
+)
 }
 \arguments{
-\item{x}{matrix of regressors. See \code{\link[glmnet]{glmnet}}.}
+\item{x}{matrix of regressors. See \code{glmnet}.}
 
-\item{y}{response variable. See \code{\link[glmnet]{glmnet}}.}
+\item{y}{response variable. See \code{glmnet}.}
 
-\item{weight}{vector of \code{length(nrow(y))} for weighted LASSO estimation. See \code{\link[glmnet]{glmnet}}.}
+\item{weight}{vector of \code{length(nrow(y))} for weighted LASSO estimation. See \code{glmnet}.}
 
-\item{alpha}{elastic net mixing value. See \code{\link[glmnet]{glmnet}}.}
+\item{alpha}{elastic net mixing value. See \code{glmnet}.}
 
 \item{standardise}{if \code{TRUE}, then variables are standardised.}
 

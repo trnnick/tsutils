@@ -4,8 +4,7 @@
 \alias{coxstuart}
 \title{Cox-Stuart test}
 \usage{
-coxstuart(y, type = c("trend", "deviation", "dispersion"),
-  alpha = 0.05)
+coxstuart(y, type = c("trend", "deviation", "dispersion"), alpha = 0.05)
 }
 \arguments{
 \item{y}{input data.}

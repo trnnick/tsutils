@@ -2,14 +2,14 @@
 #'
 #' Calculate the temporal hierarchy summing matrix S for a given time series of seasonal periodicity.
 #'
-#' @param y input time series (a \code{ts} object) or an integer. 
-#' 
+#' @param y input time series (a \code{ts} object) or an integer.
+#'
 #' @return S matrix.
 #'
 #' @author Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.
 #'
 #' @references
-#' Athanasopoulos, G., Hyndman, R. J., Kourentzes, N., & Petropoulos, F. (2017). \href{http://kourentzes.com/forecasting/2017/02/27/forecasting-with-temporal-hierarchies-3/}{Forecasting with temporal hierarchies}. European Journal of Operational Research, 262(1), 60-74.
+#' Athanasopoulos, G., Hyndman, R. J., Kourentzes, N., & Petropoulos, F. (2017). \href{https://kourentzes.com/forecasting/2017/02/27/forecasting-with-temporal-hierarchies-3/}{Forecasting with temporal hierarchies}. European Journal of Operational Research, 262(1), 60-74.
 #'
 #' @keywords ts
 #'
@@ -23,7 +23,7 @@ Sthief <- function(y){
 
   # Get time series frequency
   if (any(class(y) == "ts")){
-    f <- frequency(y)    
+    f <- frequency(y)
   } else if(is.numeric(y) && length(y)==1 && (y %% 1 == 0)){
     f <- y
   } else {
