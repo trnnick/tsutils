@@ -32,9 +32,9 @@ Perform ABC analysis on a set of time series.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{plot}: plot ABC or XYZ analyses.
-}}
+\item \code{plot(abc)}: plot ABC or XYZ analyses.
 
+}}
 \examples{
 x <- abs(matrix(cumsum(rnorm(5400,0,1)),36,150))
 z <- abc(x)

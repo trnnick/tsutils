@@ -1,7 +1,7 @@
 Package: tsutils
 Type: Package
 Title: Time Series Exploration, Modelling and Forecasting
-Version: 0.9.3
+Version: 0.9.4
 Authors@R: c(
     person("Nikolaos", "Kourentzes",, "nikolaos@kourentzes.com", c("aut", "cre")),
     person("Ivan", "Svetunkov",, "ivan@svetunkov.ru", c("ctb")),
@@ -13,4 +13,4 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/trnnick/tsutils/
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3

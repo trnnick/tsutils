@@ -308,10 +308,11 @@ seasplot <- function(y,m=NULL,s=NULL,trend=NULL,colour=NULL,alpha=0.05,
     args$xaxt <- "n"
     # Produce plot
     do.call(plot,args)
-    polygon(c(1:m,rev(1:m)),c(qntl[7,],rev(qntl[1,])),col=gray(0.8),border=NA)
-    polygon(c(1:m,rev(1:m)),c(qntl[6,],rev(qntl[2,])),col="lightblue",border=NA)
-    polygon(c(1:m,rev(1:m)),c(qntl[5,],rev(qntl[3,])),col="skyblue",border=NA)
-    lines(1:m,qntl[4,],col=cmp,lwd=2)
+    polygon(c(1:m,rev(1:m)),c(qntl[9,],rev(qntl[1,])),col=gray(0.8),border=NA)
+    polygon(c(1:m,rev(1:m)),c(qntl[8,],rev(qntl[2,])),col="lightblue",border=NA)
+    polygon(c(1:m,rev(1:m)),c(qntl[7,],rev(qntl[3,])),col="skyblue",border=NA)
+    polygon(c(1:m,rev(1:m)),c(qntl[6,],rev(qntl[4,])),col="skyblue",border=NA)
+    lines(1:m,qntl[5,],col=cmp,lwd=2)
     lines(c(0,m*ns+1),c(ymid,ymid),col="black",lty=2)
     legend("topleft",c("Median","25%-75%","10%-90%","MinMax"),col=c(cmp,"skyblue","lightblue",gray(0.8)),lty=1,bty="n",lwd=2,cex=0.7)
     axis(1,at=1:m,labels=labels)

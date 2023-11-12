@@ -94,9 +94,9 @@ This implementation of the Theta method tests automatically for seasonality and 
 }
 \section{Functions}{
 \itemize{
-\item \code{theta.thief}: Wrapper function to use Theta with \code{\link[thief]{thief}}.
-}}
+\item \code{theta.thief()}: Wrapper function to use Theta with \code{\link[thief]{thief}}.
 
+}}
 \examples{
 fit <- theta(referrals)
 plot(fit)

@@ -1,3 +1,7 @@
+#' @keywords internal
+#' @aliases tsutils-package
+"_PACKAGE"
+
 #' tsutils: Time Series Exploration, Modelling and Forecasting
 #'
 #' The \pkg{tsutils} package provides functions to support various aspects of time series and forecasting modelling. In particular this package includes: (i) tests and visualisations that can help the modeller explore time series components and perform decomposition; (ii) modelling shortcuts, such as functions to construct lagmatrices and seasonal dummy variables of various forms; (iii) an implementation of the Theta method; (iv) tools to facilitate the design of the forecasting process, such as ABC-XYZ analyses; and (v) "quality of life" tools, such as treating time series for trailing and leading values.
@@ -47,10 +51,9 @@
 #' \item{\code{\link{referrals}}}{: A&E monthly referrals.}
 #' }
 #'
-#' @docType package
-#' @keywords package
-#'
 #' @name tsutils
+#'
+#' @docType package
 #'
 #' @importFrom graphics plot lines par points polygon axis image abline box text boxplot legend mtext
 #' @importFrom stats frequency friedman.test qtukey na.exclude sd ts pbinom median density quantile start cor.test deltat end optim time tsp

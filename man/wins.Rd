@@ -25,11 +25,11 @@ Winsorise either by number or percentage of observations.
 }
 \section{Functions}{
 \itemize{
-\item \code{colWins}: Vectorised version of wins by columns.
+\item \code{colWins()}: Vectorised version of wins by columns.
 
-\item \code{rowWins}: Vectorised version of wins by rows.
+\item \code{rowWins()}: Vectorised version of wins by rows.
+
 }}
-
 \examples{
 x <- rnorm(100,mean=0,sd=1)
 xW <- wins(x)

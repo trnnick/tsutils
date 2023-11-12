@@ -64,4 +64,3 @@ The \pkg{tsutils} package provides functions to support various aspects of time 
 }
 }
 
-\keyword{package}
