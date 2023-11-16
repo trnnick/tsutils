@@ -15,8 +15,8 @@ seasdummy(n, m = NULL, y = NULL, type = c("bin", "trg"), full = c(FALSE, TRUE))
 
 \item{type}{type of seasonal dummies to create.
 \itemize{
-\item{\code{"bin}}{: binary dummies}
-\item{\code{"trg}}{: trigonometric dummies. See notes.}
+\item \code{"bin}: binary dummies.
+\item \code{"trg}: trigonometric dummies. See notes.
 }}
 
 \item{full}{If full is \code{TRUE}, then keeps the m-th dummy that is co-linear to the rest. See notes.}

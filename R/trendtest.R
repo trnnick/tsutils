@@ -6,8 +6,8 @@
 #' @param extract if \code{TRUE} then the centred moving average of the time series is calculated and the test is performed on that. Otherwise, the test is performed on the raw data.
 #' @param type type of test. Can be:
 #' \itemize{
-#' \item{\code{"aicc"}}{: test by comparing the AICc of exponential smoothing models. See details.}
-#' \item{\code{"cs"}}{: test by using the Cox-Stuart test. See details.}
+#' \item \code{"aicc"}: test by comparing the AICc of exponential smoothing models. See details.
+#' \item \code{"cs"}: test by using the Cox-Stuart test. See details.<
 #' }
 #' @param mta If \code{TRUE} augment testing by using Multiple Temporal Aggregation.
 #'

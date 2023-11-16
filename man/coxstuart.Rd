@@ -11,9 +11,9 @@ coxstuart(y, type = c("trend", "deviation", "dispersion"), alpha = 0.05)
 
 \item{type}{type of test. Can be:
 \itemize{
-\item{\code{"trend"}}{: test for changes in trend.}
-\item{\code{"deviation"}}{: test for changes in deviation.}
-\item{\code{"dispersion"}}{: test for changes in dispersion (range).}
+\item \code{"trend"}: test for changes in trend.
+\item \code{"deviation"}: test for changes in deviation.
+\item \code{"dispersion"}: test for changes in dispersion (range).
 }}
 
 \item{alpha}{significance level.}
@@ -21,9 +21,9 @@ coxstuart(y, type = c("trend", "deviation", "dispersion"), alpha = 0.05)
 \value{
 A list containing:
 \itemize{
-\item{\code{H}}{: hypothesis outcome.}
-\item{\code{p.value}}{: corresponding p-value.}
-\item{\code{Htxt}}{: textual description of the hypothesis outcome.}
+\item \code{H}: hypothesis outcome.
+\item \code{p.value}: corresponding p-value.
+\item \code{Htxt}: textual description of the hypothesis outcome.
 }
 }
 \description{

@@ -10,12 +10,12 @@
 #' @param alpha significance level for statistical tests.
 #' @param outplot type of seasonal plot
 #' \itemize{
-#' \item{0}{: none.}
-#' \item{1}{: seasonal diagram.}
-#' \item{2}{: seasonal boxplots.}
-#' \item{3}{: seasonal subseries.}
-#' \item{4}{: seasonal distribution.}
-#' \item{5}{: seasonal density.}
+#' \item \code{0}: none.
+#' \item \code{1}: seasonal diagram.
+#' \item \code{2}: seasonal boxplots.
+#' \item \code{3}: seasonal subseries.
+#' \item \code{4}: seasonal distribution.
+#' \item \code{5}: seasonal density.
 #' }
 #' @param decomposition type of seasonal decomposition. This can be \code{"multiplicative"}, \code{"additive"} or \code{"auto"}. If \code{y} contains non-positive values then this is forced to \code{"additive"}.
 #' @param cma input precalculated level/trend for the analysis. This overrides \code{trend=NULL}.
@@ -24,13 +24,13 @@
 #'
 #' @return An object of class \code{seasexpl} containing:
 #' \itemize{
-#' \item{\code{season}}{: matrix of (detrended) seasonal elements.}
-#' \item{\code{season.exist}}{: \code{TRUE}/\code{FALSE} results of seasonality test.}
-#' \item{\code{season.pval}}{: p-value of seasonality test (Friedman test).}
-#' \item{\code{trend}}{: CMA estimate (using \code{\link{cmav}}) or \code{NULL} if \code{trend=FALSE}.}
-#' \item{\code{trend.exist}}{: \code{TRUE}/\code{FALSE} results of trend test.}
-#' \item{\code{trend.pval}}{: p-value of trend test (Cox-Stuart).}
-#' \item{\code{decomposition}}{: type of decomposition used.}
+#' \item \code{season}: matrix of (detrended) seasonal elements.
+#' \item \code{season.exist}: \code{TRUE}/\code{FALSE} results of seasonality test.
+#' \item \code{season.pval}: p-value of seasonality test (Friedman test).
+#' \item \code{trend}: CMA estimate (using \code{\link{cmav}}) or \code{NULL} if \code{trend=FALSE}.
+#' \item \code{trend.exist}: \code{TRUE}/\code{FALSE} results of trend test.
+#' \item \code{trend.pval}: p-value of trend test (Cox-Stuart).
+#' \item \code{decomposition}: type of decomposition used.
 #' }
 #'
 #' @author Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

@@ -33,9 +33,9 @@ decomp(
 
 \item{type}{calculation for seasonal component:
 \itemize{
-\item{\code{"mean"}}{: the mean of each seasonal period.}
-\item{\code{"median"}}{: the median of each seasonal period.}
-\item{\code{"pure.seasonal"}}{: estimate using a pure seasonal model.}
+\item \code{"mean"}: the mean of each seasonal period.
+\item \code{"median"}: the median of each seasonal period.
+\item \code{"pure.seasonal"}: estimate using a pure seasonal model.
 }}
 
 \item{w}{percentage or number of observations to winsorise in the calculation of mean seasonal indices. If w>1 then it is the number of observations, otherwise it is a percentage. If \code{type != "mean"} then this is ignored.}
@@ -43,11 +43,11 @@ decomp(
 \value{
 A list containing:
 \itemize{
-\item{\code{trend}}{: trend component.}
-\item{\code{season}}{: season component.}
-\item{\code{irregular}}{: irregular component.}
-\item{\code{f.season}}{: forecasted seasonal component if \code{h>0}.}
-\item{\code{g}}{: pure seasonal model parameters.}
+\item \code{trend}: trend component.
+\item \code{season}: season component.
+\item \code{irregular}: irregular component.
+\item \code{f.season}: forecasted seasonal component if \code{h>0}.
+\item \code{g}: pure seasonal model parameters.
 }
 }
 \description{

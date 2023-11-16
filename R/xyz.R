@@ -7,19 +7,19 @@
 #' @param prc a vector of percentages indicating how many items are included in each class. By default this is \code{c(0.2,0.3,0.5)}, but any set of percentage values can be used as long as \code{0<=prc[i]<=1} and \code{sum(prc)==1}.
 #' @param type the type of forecastability calculation. This can be:
 #' \itemize{
-#' \item{\code{"naive"}}{: fit naive and seasonal naive and calculate forecastability using RMSE/mean level.}
-#' \item{\code{"ets"}}{: fit ets and calculate and calculate forecastability using RMSE/mean level.}
-#' \item{\code{"cv"}}{: use coefficient of variation as a proxy of forecastability.}
+#' \item \code{"naive"}: fit naive and seasonal naive and calculate forecastability using RMSE/mean level.
+#' \item \code{"ets"}: fit ets and calculate and calculate forecastability using RMSE/mean level.
+#' \item \code{"cv"}: use coefficient of variation as a proxy of forecastability.
 #' }
 #'
 #'
 #' @return Return object of class \code{abc} and contains:
 #' \itemize{
-#' \item{\code{value}}{: a vector containing the forecastability value of each series.}
-#' \item{\code{class}}{: a vector containing the class membership of each series.}
-#' \item{\code{rank}}{: a vector containing the rank of each series, with 1 being the lowest forecastability series.}
-#' \item{\code{conc}}{: the forecastability concentration of each class, as percentage of total value.}
-#' \item{\code{model}}{: fitted model for each series.}
+#' \item \code{value}: a vector containing the forecastability value of each series.
+#' \item \code{class}: a vector containing the class membership of each series.
+#' \item \code{rank}: a vector containing the rank of each series, with 1 being the lowest forecastability series.
+#' \item \code{conc}: the forecastability concentration of each class, as percentage of total value.
+#' \item \code{model}: fitted model for each series.
 #' }
 #'
 #' @author Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

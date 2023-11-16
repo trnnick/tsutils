@@ -34,17 +34,17 @@ mseastest(
 
 \item{outplot}{type of output plot:
 \itemize{
-\item{0}{: none.}
-\item{1}{: scatter plot.}
-\item{2}{: time series plot.}
+\item \code{0}: none.
+\item \code{1}: scatter plot.
+\item \code{2}: time series plot.
 }}
 }
 \value{
 A list with the following:
 \itemize{
-\item{\code{is.multiplicative}}{: if \code{TRUE} the test found evidence of multiplicative seasonality.}
-\item{\code{statistic}}{: test statistic.}
-\item{\code{pvalue}}{: p-value of the test.}
+\item \code{is.multiplicative}: if \code{TRUE} the test found evidence of multiplicative seasonality.
+\item \code{statistic}: test statistic.
+\item \code{pvalue}: p-value of the test.
 }
 }
 \description{

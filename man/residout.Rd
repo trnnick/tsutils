@@ -16,9 +16,9 @@ residout(resid, t = 2, outplot = c(TRUE, FALSE))
 \value{
 A list containing:
 \itemize{
-\item{\code{location}}{: locations of outliers.}
-\item{\code{outliers}}{: values of outliers.}
-\item{\code{residuals}}{: standardised residuals.}
+\item \code{location}: locations of outliers.
+\item \code{outliers}: values of outliers.
+\item \code{residuals}: standardised residuals.
 }
 }
 \description{

@@ -10,57 +10,57 @@ The \pkg{tsutils} package provides functions to support various aspects of time 
 \section{Time series exploration}{
 
 \itemize{
-\item{\code{\link{cmav}}}{: centred moving average.}
-\item{\code{\link{coxstuart}}}{: Cox-Stuart test for location/dispersion.}
-\item{\code{\link{decomp}}}{: classical time series decomposition.}
-\item{\code{\link{seasplot}}}{: construct seasonal plots.}
-\item{\code{\link{trendtest}}}{: test a time series for trend.}
+\item \code{\link{cmav}}: centred moving average.
+\item \code{\link{coxstuart}}: Cox-Stuart test for location/dispersion.
+\item \code{\link{decomp}}: classical time series decomposition.
+\item \code{\link{seasplot}}: construct seasonal plots.
+\item \code{\link{trendtest}}: test a time series for trend.
 }
 }
 
 \section{Time series modelling}{
 
 \itemize{
-\item{\code{\link{getOptK}}}{: optimal temporal aggregation level for AR(1), MA(1), ARMA(1,1).}
-\item{\code{\link{lagmatrix}}}{: create leads/lags of variable.}
-\item{\code{\link{nemenyi}}}{: nonparametric multiple comparisons.}
-\item{\code{\link{residout}}}{: construct control chart of residuals.}
-\item{\code{\link{seasdummy}}}{: create seasonal dummies.}
-\item{\code{\link{theta}}}{: Theta method.}
+\item \code{\link{getOptK}}: optimal temporal aggregation level for AR(1), MA(1), ARMA(1,1).
+\item \code{\link{lagmatrix}}: create leads/lags of variable.
+\item \code{\link{nemenyi}}: nonparametric multiple comparisons.
+\item \code{\link{residout}}: construct control chart of residuals.
+\item \code{\link{seasdummy}}: create seasonal dummies.
+\item \code{\link{theta}}: Theta method.
 }
 }
 
 \section{Hierarchical time series}{
 
 \itemize{
-\item{\code{\link{Sthief}}}{: temporal hierarchy S matrix.}
-\item{\code{\link{plotSthief}}}{: plot temporal hierarchy S matrix.}
+\item \code{\link{Sthief}}: temporal hierarchy S matrix.
+\item \code{\link{plotSthief}}: plot temporal hierarchy S matrix.
 }
 }
 
 \section{Forecasting process modelling}{
 
 \itemize{
-\item{\code{\link{abc}}}{: ABC analysis.}
-\item{\code{\link{xyz}}}{: XYZ analysis.}
-\item{\code{\link{abcxyz}}}{: ABC-XYZ analyses visualisation.}
+\item \code{\link{abc}}: ABC analysis.
+\item \code{\link{xyz}}: XYZ analysis.
+\item \code{\link{abcxyz}}: ABC-XYZ analyses visualisation.
 }
 }
 
 \section{Quality of life}{
 
 \itemize{
-\item{\code{\link{geomean}}}{: geometric mean.}
-\item{\code{\link{lambdaseq}}}{: generate sequence of lambda for LASSO regression.}
-\item{\code{\link{leadtrail}}}{: remove leading/training zeros/NAs.}
-\item{\code{\link{wins}}}{: winsorisation, including vectorised versions \code{colWins} and \code{rowWins}.}
+\item \code{\link{geomean}}: geometric mean.
+\item \code{\link{lambdaseq}}: generate sequence of lambda for LASSO regression.
+\item \code{\link{leadtrail}}: remove leading/training zeros/NAs.
+\item \code{\link{wins}}: winsorisation, including vectorised versions \code{colWins} and \code{rowWins}.
 }
 }
 
 \section{Time series data}{
 
 \itemize{
-\item{\code{\link{referrals}}}{: A&E monthly referrals.}
+\item \code{\link{referrals}}: A&E monthly referrals.
 }
 }
 

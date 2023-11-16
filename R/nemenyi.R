@@ -7,26 +7,27 @@
 #' @param sort if \code{TRUE}, then function sorts the outputted values of mean ranks. If plots are request, this is forced to \code{TRUE}.
 #' @param plottype type of plot to produce:
 #' \itemize{
-#'  \item{\code{"none"}}{: no plot.}
-#'  \item{\code{"mcb"}}{: \emph{Multiple Comparison with the Best} style plot.}
-#'  \item{\code{"vmcb"}}{: vertical \emph{MCB} plot.}
-#'  \item{\code{"line"}}{: summarised \emph{line} plot.}
-#'  \item{\code{"vline"}}{: vertical \emph{line} plot.}
-#'  \item{\code{"matrix"}}{: complete \emph{matrix} visualisation.}}
+#'  \item \code{"none"}: no plot.
+#'  \item \code{"mcb"}: \emph{Multiple Comparison with the Best} style plot.
+#'  \item \code{"vmcb"}: vertical \emph{MCB} plot.
+#'  \item \code{"line"}: summarised \emph{line} plot.
+#'  \item \code{"vline"}: vertical \emph{line} plot.
+#'  \item \code{"matrix"}: complete \emph{matrix} visualisation.
+#'  }
 #' @param select highlight selected treatment (column). Number 1 to k. Use NULL for no highlighting.
 #' @param labels optional labels for models. If NULL column names of \code{data} will be used.
 #' @param ... additional arguments passed to the \code{plot} function.
 #'
 #' @return Return object of class \code{nemenyi} and contains:
 #' \itemize{
-#' \item{\code{means}}{: mean rank of each treatment.}
-#' \item{\code{intervals}}{: intervals within there is no evidence of significance difference according to the Nemenyi test at requested confidence level.}
-#' \item{\code{fpavl}}{: Friedman test p-value.}
-#' \item{\code{fH}}{: Friedman test hypothesis outcome.}
-#' \item{\code{cd}}{: Nemenyi critical distance. Output \code{intervals} is calculate as \code{means} +/- \code{cd}.}
-#' \item{\code{conf.level}}{: confidence level used for testing.}
-#' \item{\code{k}}{: number of treatments (columns).}
-#' \item{\code{n}}{: number of observations (rows).}
+#' \item \code{means}: mean rank of each treatment.
+#' \item \code{intervals}: intervals within there is no evidence of significance difference according to the Nemenyi test at requested confidence level.
+#' \item \code{fpavl}: Friedman test p-value.
+#' \item \code{fH}: Friedman test hypothesis outcome.
+#' \item \code{cd}: Nemenyi critical distance. Output \code{intervals} is calculate as \code{means} +/- \code{cd}.
+#' \item \code{conf.level}: confidence level used for testing.
+#' \item \code{k}: number of treatments (columns).
+#' \item \code{n}: number of observations (rows).
 #' }
 #'
 #' @author Nikolaos Kourentzes, \email{nikolaos@kourentzes.com},
@@ -34,10 +35,10 @@
 #'
 #' @references
 #' \itemize{
-#' \item{The tests are deailed by Hollander, M., Wolfe, D.A. and Chicken, E. (2014) Nonparametric Statistical Methods. 3rd Edition, John Wiley & Sons, Inc., New York.}
-#' \item{The \emph{line} plot is introduced \href{https://kourentzes.com/forecasting/wp-content/uploads/2014/04/ISF2012_Tests_Kourentzes.pdf}{here} and a first example of its use, along with a short description is provided by Kourentzes, N. (2013). \href{https://kourentzes.com/forecasting/2013/04/19/intermittent-demand-forecasts-with-neural-networks/}{Intermittent demand forecasts with neural networks}. International Journal of Production Economics, 143(1), 198-206.}
-#' \item{The \emph{matrix} plot is introduced by Kourentzes, N., & Athanasopoulos, G. (2018). Cross-temporal coherent forecasts for Australian tourism (No. 24/18). Monash University, Department of Econometrics and Business Statistics.}
-#' \item{The \emph{MCB} plot is described by Koning, A. J., Franses, P. H., Hibon, M., & Stekler, H. O. (2005). The M3 competition: Statistical tests of the results. International Journal of Forecasting, 21(3), 397-409.}
+#' \item The tests are deailed by Hollander, M., Wolfe, D.A. and Chicken, E. (2014) Nonparametric Statistical Methods. 3rd Edition, John Wiley & Sons, Inc., New York.
+#' \item The \emph{line} plot is introduced \href{https://kourentzes.com/forecasting/wp-content/uploads/2014/04/ISF2012_Tests_Kourentzes.pdf}{here} and a first example of its use, along with a short description is provided by Kourentzes, N. (2013). \href{https://kourentzes.com/forecasting/2013/04/19/intermittent-demand-forecasts-with-neural-networks/}{Intermittent demand forecasts with neural networks}. International Journal of Production Economics, 143(1), 198-206.
+#' \item The \emph{matrix} plot is introduced by Kourentzes, N., & Athanasopoulos, G. (2018). Cross-temporal coherent forecasts for Australian tourism (No. 24/18). Monash University, Department of Econometrics and Business Statistics.
+#' \item The \emph{MCB} plot is described by Koning, A. J., Franses, P. H., Hibon, M., & Stekler, H. O. (2005). The M3 competition: Statistical tests of the results. International Journal of Forecasting, 21(3), 397-409.
 #' }
 #'
 #' @keywords htest

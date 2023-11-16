@@ -34,10 +34,10 @@ theta.thief(y, h = NULL, ...)
 
 \item{cost0}{cost function of theta0 line. Can be:
 \itemize{
-\item{\code{"MSE"}}{: mean squared error.}
-\item{\code{"MdSE"}}{: median squared error.}
-\item{\code{"MAE"}}{: mean absolute error.}
-\item{\code{"MdAE"}}{: median absolute error.}
+\item \code{"MSE"}: mean squared error.
+\item \code{"MdSE"}: median squared error.
+\item \code{"MAE"}: mean absolute error.
+\item \code{"MdAE"}: median absolute error.
 }}
 
 \item{cost2}{cost function of theta2 line. Same options as \code{cost0}.}
@@ -63,23 +63,23 @@ theta.thief(y, h = NULL, ...)
 \value{
 An object of class \code{theta}, containing:
 \itemize{
-\item{\code{"method"}}{: "Theta".}
-\item{\code{"y"}}{: the input time series.}
-\item{\code{"m"}}{: seasonal periods.}
-\item{\code{"exist"}}{: Statistical testing results, \code{exist[1]} is the result for trend, \code{exist[2]} is for season.}
-\item{\code{"multiplicative"}}{: If \code{TRUE}, then seasonality is modelled multiplicatively.}
-\item{\code{"theta0"}}{: fitted theta0 line values.}
-\item{\code{"theta2"}}{: fitted theta2 line values.}
-\item{\code{"season"}}{: fitted season values.}
-\item{\code{"x.out"}}{: modelled outliers.}
-\item{\code{"cost"}}{: cost functions for theta0, theta2 and season components.}
-\item{\code{"a"}}{: SES parameters of theta2.}
-\item{\code{"b"}}{: regression parameters of theta0.}
-\item{\code{"p"}}{: coefficients of outliers from theta0 and theta2 estimation.}
-\item{\code{"g"}}{: pure seasonal exponential smoothing parameters.}
-\item{\code{"fitted"}}{: fitted values.}
-\item{\code{"residuals"}}{: in-sample residuals.}
-\item{\code{"MSE"}}{: in-sample Mean Squared Error.}
+\item \code{"method"}: "Theta".
+\item \code{"y"}: the input time series.
+\item \code{"m"}: seasonal periods.
+\item \code{"exist"}: Statistical testing results, \code{exist[1]} is the result for trend, \code{exist[2]} is for season.
+\item \code{"multiplicative"}: If \code{TRUE}, then seasonality is modelled multiplicatively.
+\item \code{"theta0"}: fitted theta0 line values.
+\item \code{"theta2"}: fitted theta2 line values.
+\item \code{"season"}: fitted season values.
+\item \code{"x.out"}: modelled outliers.
+\item \code{"cost"}: cost functions for theta0, theta2 and season components.
+\item \code{"a"}: SES parameters of theta2.
+\item \code{"b"}: regression parameters of theta0.
+\item \code{"p"}: coefficients of outliers from theta0 and theta2 estimation.
+\item \code{"g"}: pure seasonal exponential smoothing parameters.
+\item \code{"fitted"}: fitted values.
+\item \code{"residuals"}: in-sample residuals.
+\item \code{"MSE"}: in-sample Mean Squared Error.
 }
 }
 \description{
@@ -111,8 +111,8 @@ thief(referrals,forecastfunction=theta.thief)
 }
 \references{
 \itemize{
-\item{The original Theta method was proposed by: Assimakopoulos, V., & Nikolopoulos, K. (2000). The theta model: a decomposition approach to forecasting. International journal of forecasting, 16(4), 521-530. See details in how the implementation here differs.}
-\item{The THieF forecasting methodology used for \code{theta.thief} is proposed by: Athanasopoulos, G., Hyndman, R. J., Kourentzes, N., & Petropoulos, F. (2017). Forecasting with temporal hierarchies. European Journal of Operational Research, 262(1), 60-74.}
+\item The original Theta method was proposed by: Assimakopoulos, V., & Nikolopoulos, K. (2000). The theta model: a decomposition approach to forecasting. International journal of forecasting, 16(4), 521-530. See details in how the implementation here differs.
+\item The THieF forecasting methodology used for \code{theta.thief} is proposed by: Athanasopoulos, G., Hyndman, R. J., Kourentzes, N., & Petropoulos, F. (2017). Forecasting with temporal hierarchies. European Journal of Operational Research, 262(1), 60-74.
 }
 }
 \author{

@@ -20,8 +20,8 @@ abcxyz(imp, frc, outplot = c(TRUE, FALSE), error = NULL, ...)
 \value{
 A list containing:
 \itemize{
-\item{\code{class}}{: a matrix containing the number of time series in each class.}
-\item{\code{error}}{: a matrix containing the averaged error for each class, if the argument \code{error} was used.}
+\item \code{class}: a matrix containing the number of time series in each class.
+\item \code{error}: a matrix containing the averaged error for each class, if the argument \code{error} was used.
 }
 }
 \description{

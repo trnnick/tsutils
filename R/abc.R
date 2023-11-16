@@ -7,10 +7,10 @@
 #'
 #' @return Return object of class \code{abc} and contains:
 #' \itemize{
-#' \item{\code{value}}{: a vector containing the importance value of each series.}
-#' \item{\code{class}}{: a vector containing the class membership of each series.}
-#' \item{\code{rank}}{: a vector containing the rank of each series, with 1 being the highest ranking series.}
-#' \item{\code{conc}}{: the importance concentration of each class, as percentage of total value.}
+#' \item \code{value}: a vector containing the importance value of each series.
+#' \item \code{class}: a vector containing the class membership of each series.
+#' \item \code{rank}: a vector containing the rank of each series, with 1 being the highest ranking series.
+#' \item \code{conc}: the importance concentration of each class, as percentage of total value.
 #' }
 #'
 #' @author Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

@@ -8,9 +8,9 @@
 #'
 #' @return A list containing:
 #' \itemize{
-#' \item{\code{location}}{: locations of outliers.}
-#' \item{\code{outliers}}{: values of outliers.}
-#' \item{\code{residuals}}{: standardised residuals.}
+#' \item \code{location}: locations of outliers.
+#' \item \code{outliers}: values of outliers.
+#' \item \code{residuals}: standardised residuals.
 #' }
 #'
 #' @author Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

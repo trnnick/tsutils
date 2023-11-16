@@ -1,0 +1,25 @@
+{
+    "id": "F31CDFDC",
+    "path": "~/R/Scripts/Packages/tsutils/R/tsutils-package.R",
+    "project_path": "R/tsutils-package.R",
+    "type": "r_source",
+    "hash": "500413764",
+    "contents": "",
+    "dirty": false,
+    "created": 1699817046236.0,
+    "source_on_save": false,
+    "relative_order": 16,
+    "properties": {
+        "cursorPosition": "65,4",
+        "scrollLine": "0",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1699817132,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1699817132652,
+    "read_only": false,
+    "read_only_alternatives": []
+}

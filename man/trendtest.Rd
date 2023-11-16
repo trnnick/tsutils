@@ -18,8 +18,8 @@ trendtest(
 
 \item{type}{type of test. Can be:
 \itemize{
-\item{\code{"aicc"}}{: test by comparing the AICc of exponential smoothing models. See details.}
-\item{\code{"cs"}}{: test by using the Cox-Stuart test. See details.}
+\item \code{"aicc"}: test by comparing the AICc of exponential smoothing models. See details.
+\item \code{"cs"}: test by using the Cox-Stuart test. See details.<
 }}
 
 \item{mta}{If \code{TRUE} augment testing by using Multiple Temporal Aggregation.}

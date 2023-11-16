@@ -35,10 +35,10 @@ lambdaseq(
 \value{
 A list that contains:
 \itemize{
-\item{lambda}{: sequence of lambda values, from \code{lambdaMax} to \code{lambdaMin}.}
-\item{lambdaMin}{: minimal lambda value.}
-\item{lambdaMax}{: maximal lambda value.}
-\item{nullMSE}{: MSE of the fit using just a constant term.}
+\item \code{lambda}: sequence of lambda values, from \code{lambdaMax} to \code{lambdaMin}.
+\item \code{lambdaMin}: minimal lambda value.
+\item \code{lambdaMax}: maximal lambda value.
+\item \code{nullMSE}: MSE of the fit using just a constant term.
 }
 }
 \description{

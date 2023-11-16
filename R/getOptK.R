@@ -6,18 +6,18 @@
 #' @param m maximum aggregation level.
 #' @param type type of data generating process. Can be:
 #' \itemize{
-#' \item{\code{"ar"}}{: For AR(1) series.}
-#' \item{\code{"ma"}}{: For MA(1) series.}
-#' \item{\code{"arma"}}{: For ARMA(1,1) series.}
+#' \item \code{"ar"}: For AR(1) series.
+#' \item \code{"ma"}: For MA(1) series.
+#' \item \code{"arma"}: For ARMA(1,1) series.
 #' }
 #'
 #' @return Identified optimal temporal aggregation level.
 #'
 #' @references
 #' \itemize{
-#' \item{Kourentzes, N., Rostami-Tabar, B., & Barrow, D. K. (2017). \href{https://kourentzes.com/forecasting/2017/04/22/demand-forecasting-by-temporal-aggregation-using-optimal-or-multiple-aggregation-levels/}{Demand forecasting by temporal aggregation: using optimal or multiple aggregation levels?}. Journal of Business Research, 78, 1-9.}
-#' \item{Rostami-Tabar, B., Babai, M. Z., Syntetos, A., & Ducq, Y. (2013). Demand forecasting by temporal aggregation. Naval Research Logistics (NRL), 60(6), 479-498.}
-#' \item{Rostami-Tabar, B., Babai, M. Z., Syntetos, A., & Ducq, Y. (2014). A note on the forecast performance of temporal aggregation. Naval Research Logistics (NRL), 61(7), 489-500.}
+#' \item Kourentzes, N., Rostami-Tabar, B., & Barrow, D. K. (2017). \href{https://kourentzes.com/forecasting/2017/04/22/demand-forecasting-by-temporal-aggregation-using-optimal-or-multiple-aggregation-levels/}{Demand forecasting by temporal aggregation: using optimal or multiple aggregation levels?}. Journal of Business Research, 78, 1-9.
+#' \item Rostami-Tabar, B., Babai, M. Z., Syntetos, A., & Ducq, Y. (2013). Demand forecasting by temporal aggregation. Naval Research Logistics (NRL), 60(6), 479-498.
+#' \item Rostami-Tabar, B., Babai, M. Z., Syntetos, A., & Ducq, Y. (2014). A note on the forecast performance of temporal aggregation. Naval Research Logistics (NRL), 61(7), 489-500.
 #' }
 #'
 #' @author Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

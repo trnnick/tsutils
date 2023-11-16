@@ -7,10 +7,10 @@
 #' @param sign.level significance level for trend and seasonality tests.
 #' @param cost0 cost function of theta0 line. Can be:
 #' \itemize{
-#' \item{\code{"MSE"}}{: mean squared error.}
-#' \item{\code{"MdSE"}}{: median squared error.}
-#' \item{\code{"MAE"}}{: mean absolute error.}
-#' \item{\code{"MdAE"}}{: median absolute error.}
+#' \item \code{"MSE"}: mean squared error.
+#' \item \code{"MdSE"}: median squared error.
+#' \item \code{"MAE"}: mean absolute error.
+#' \item \code{"MdAE"}: median absolute error.
 #' }
 #' @param cost2 cost function of theta2 line. Same options as \code{cost0}.
 #' @param costs cost function of seasonal element. Same options as \code{cost0}.
@@ -20,23 +20,23 @@
 #'
 #' @return An object of class \code{theta}, containing:
 #' \itemize{
-#' \item{\code{"method"}}{: "Theta".}
-#' \item{\code{"y"}}{: the input time series.}
-#' \item{\code{"m"}}{: seasonal periods.}
-#' \item{\code{"exist"}}{: Statistical testing results, \code{exist[1]} is the result for trend, \code{exist[2]} is for season.}
-#' \item{\code{"multiplicative"}}{: If \code{TRUE}, then seasonality is modelled multiplicatively.}
-#' \item{\code{"theta0"}}{: fitted theta0 line values.}
-#' \item{\code{"theta2"}}{: fitted theta2 line values.}
-#' \item{\code{"season"}}{: fitted season values.}
-#' \item{\code{"x.out"}}{: modelled outliers.}
-#' \item{\code{"cost"}}{: cost functions for theta0, theta2 and season components.}
-#' \item{\code{"a"}}{: SES parameters of theta2.}
-#' \item{\code{"b"}}{: regression parameters of theta0.}
-#' \item{\code{"p"}}{: coefficients of outliers from theta0 and theta2 estimation.}
-#' \item{\code{"g"}}{: pure seasonal exponential smoothing parameters.}
-#' \item{\code{"fitted"}}{: fitted values.}
-#' \item{\code{"residuals"}}{: in-sample residuals.}
-#' \item{\code{"MSE"}}{: in-sample Mean Squared Error.}
+#' \item \code{"method"}: "Theta".
+#' \item \code{"y"}: the input time series.
+#' \item \code{"m"}: seasonal periods.
+#' \item \code{"exist"}: Statistical testing results, \code{exist[1]} is the result for trend, \code{exist[2]} is for season.
+#' \item \code{"multiplicative"}: If \code{TRUE}, then seasonality is modelled multiplicatively.
+#' \item \code{"theta0"}: fitted theta0 line values.
+#' \item \code{"theta2"}: fitted theta2 line values.
+#' \item \code{"season"}: fitted season values.
+#' \item \code{"x.out"}: modelled outliers.
+#' \item \code{"cost"}: cost functions for theta0, theta2 and season components.
+#' \item \code{"a"}: SES parameters of theta2.
+#' \item \code{"b"}: regression parameters of theta0.
+#' \item \code{"p"}: coefficients of outliers from theta0 and theta2 estimation.
+#' \item \code{"g"}: pure seasonal exponential smoothing parameters.
+#' \item \code{"fitted"}: fitted values.
+#' \item \code{"residuals"}: in-sample residuals.
+#' \item \code{"MSE"}: in-sample Mean Squared Error.
 #' }
 #'
 #' @details This implementation of the Theta method tests automatically for seasonality and trend. Seasonal decomposition can be done either additively or multiplicatively and the seasonality is treated as a pure seasonal model. The various Theta components can be optimised using different cost functions. The originally proposed Theta method always assumed multiplicative seasonality and presence of trend, while all theta lines were optimised using MSE and seasonality was estimated using classical decomposition.
@@ -45,8 +45,8 @@
 #'
 #' @references
 #' \itemize{
-#' \item{The original Theta method was proposed by: Assimakopoulos, V., & Nikolopoulos, K. (2000). The theta model: a decomposition approach to forecasting. International journal of forecasting, 16(4), 521-530. See details in how the implementation here differs.}
-#' \item{The THieF forecasting methodology used for \code{theta.thief} is proposed by: Athanasopoulos, G., Hyndman, R. J., Kourentzes, N., & Petropoulos, F. (2017). Forecasting with temporal hierarchies. European Journal of Operational Research, 262(1), 60-74.}
+#' \item The original Theta method was proposed by: Assimakopoulos, V., & Nikolopoulos, K. (2000). The theta model: a decomposition approach to forecasting. International journal of forecasting, 16(4), 521-530. See details in how the implementation here differs.
+#' \item The THieF forecasting methodology used for \code{theta.thief} is proposed by: Athanasopoulos, G., Hyndman, R. J., Kourentzes, N., & Petropoulos, F. (2017). Forecasting with temporal hierarchies. European Journal of Operational Research, 262(1), 60-74.
 #' }
 #'
 #' @keywords ts
