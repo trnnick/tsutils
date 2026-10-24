@@ -8,9 +8,10 @@ nemenyi(
   data,
   conf.level = 0.95,
   sort = c(TRUE, FALSE),
-  plottype = c("vline", "none", "mcb", "vmcb", "line", "matrix"),
+  plottype = c("vline", "none", "mcb", "vmcb", "line", "matrix", "ranges"),
   select = NULL,
   labels = NULL,
+  cld = NULL,
   ...
 )
 }
@@ -26,32 +27,40 @@ nemenyi(
  \item \code{"none"}: no plot.
  \item \code{"mcb"}: \emph{Multiple Comparison with the Best} style plot.
  \item \code{"vmcb"}: vertical \emph{MCB} plot.
- \item \code{"line"}: summarised \emph{line} plot.
+ \item \code{"line"}: summarised \emph{line} plot. Each line connects a group of treatments that are all not significantly different.
  \item \code{"vline"}: vertical \emph{line} plot.
- \item \code{"matrix"}: complete \emph{matrix} visualisation.
+ \item \code{"matrix"}: \emph{matrix} visualisation. Both axes are in mean rank order, each row/column is a tested treatment (dark cell on the diagonal), and the lower triangle gives the absolute difference in mean ranks for each pair. Shaded cells indicate no evidence of significant difference.
+ \item \code{"ranges"}: \emph{anchored} plot. One row per tested treatment on a common mean rank axis. The shaded band is the tested treatment's mean rank +/- the critical distance; treatments inside the band (filled points) are not significantly different from it, treatments outside (open points) are.
  }}
 
 \item{select}{highlight selected treatment (column). Number 1 to k. Use NULL for no highlighting.}
 
 \item{labels}{optional labels for models. If NULL column names of \code{data} will be used.}
 
-\item{...}{additional arguments passed to the \code{plot} function.}
+\item{cld}{if \code{TRUE}, show the compact letter display: treatments that share a letter are not significantly different. For \code{"ranges"} the letters are shown on the right axis, for the other plots they are appended to the labels. If \code{NULL} (default), they are shown only for \code{"ranges"}.}
+
+\item{...}{additional arguments passed to the \code{plot} function. Axis annotation arguments (\code{cex.axis}, \code{font.axis}, \code{col.axis}, \code{cex.lab}, \code{font.lab}, \code{col.lab}, \code{mgp}) are also used for the axes the function draws.}
 }
 \value{
 Return object of class \code{nemenyi} and contains:
 \itemize{
 \item \code{means}: mean rank of each treatment.
 \item \code{intervals}: intervals within there is no evidence of significance difference according to the Nemenyi test at requested confidence level.
-\item \code{fpavl}: Friedman test p-value.
+\item \code{fpval}: Friedman test p-value.
 \item \code{fH}: Friedman test hypothesis outcome.
 \item \code{cd}: Nemenyi critical distance. Output \code{intervals} is calculate as \code{means} +/- \code{cd}.
 \item \code{conf.level}: confidence level used for testing.
 \item \code{k}: number of treatments (columns).
 \item \code{n}: number of observations (rows).
+\item \code{cld}: compact letter display; treatments sharing a letter are not significantly different.
+\item \code{diff}: k x k matrix of absolute differences in mean ranks. Pairs with a difference smaller than \code{cd} are not significantly different.
 }
 }
 \description{
 Perform nonparametric multiple comparisons, across columns, using the Friedman and the post-hoc Nemenyi tests.
+}
+\details{
+Plots respect the graphical parameters currently set with \code{par()} (for example \code{mfrow}, \code{cex}, \code{mgp}, \code{fg}, \code{bg}, \code{family} or \code{las} for numerical axes). The only parameter changed is \code{mar}: margins that are too small for the treatment labels are enlarged, using the actual width of the labels, while all other margins are kept as set by the user. The user's \code{mar} is restored when the function exits. As the plot region depends on the margins, low-level additions to the plot after the call (e.g. \code{abline}) may not align; set \code{par(mar=...)} large enough for the labels beforehand to avoid this.
 }
 \examples{
 x <- matrix( rnorm(50*4,mean=0,sd=1), 50, 4)
@@ -60,11 +69,13 @@ x[,3] <- x[,3]+0.7
 x[,4] <- x[,4]+0.5
 colnames(x) <- c("Method A","Method B","Method C - long name","Method D")
 nemenyi(x,conf.level=0.95,plottype="vline")
+nemenyi(x,plottype="matrix")
+nemenyi(x,plottype="ranges")
 
 }
 \references{
 \itemize{
-\item The tests are deailed by Hollander, M., Wolfe, D.A. and Chicken, E. (2014) Nonparametric Statistical Methods. 3rd Edition, John Wiley & Sons, Inc., New York.
+\item The tests are detailed by Hollander, M., Wolfe, D.A. and Chicken, E. (2014) Nonparametric Statistical Methods. 3rd Edition, John Wiley & Sons, Inc., New York.
 \item The \emph{line} plot is introduced \href{https://kourentzes.com/forecasting/wp-content/uploads/2014/04/ISF2012_Tests_Kourentzes.pdf}{here} and a first example of its use, along with a short description is provided by Kourentzes, N. (2013). \href{https://kourentzes.com/forecasting/2013/04/19/intermittent-demand-forecasts-with-neural-networks/}{Intermittent demand forecasts with neural networks}. International Journal of Production Economics, 143(1), 198-206.
 \item The \emph{matrix} plot is introduced by Kourentzes, N., & Athanasopoulos, G. (2018). Cross-temporal coherent forecasts for Australian tourism (No. 24/18). Monash University, Department of Econometrics and Business Statistics.
 \item The \emph{MCB} plot is described by Koning, A. J., Franses, P. H., Hibon, M., & Stekler, H. O. (2005). The M3 competition: Statistical tests of the results. International Journal of Forecasting, 21(3), 397-409.

@@ -25,7 +25,11 @@ export(lambdaseq)
 export(leadtrail)
 export(mseastest)
 export(nemenyi)
+export(plotS)
+export(plotSblock)
 export(plotSthief)
+export(plotStree)
+export(plotThief)
 export(residout)
 export(seasdummy)
 export(seasplot)
@@ -36,43 +40,63 @@ export(wins)
 export(xyz)
 importFrom(MAPA,tsaggr)
 importFrom(RColorBrewer,brewer.pal)
-importFrom(forecast,Arima)
-importFrom(forecast,ets)
-importFrom(forecast,forecast)
-importFrom(forecast,forecast.ets)
-importFrom(grDevices,colorRampPalette)
-importFrom(grDevices,gray)
-importFrom(grDevices,rainbow)
-importFrom(grDevices,rgb)
-importFrom(graphics,abline)
-importFrom(graphics,axis)
-importFrom(graphics,box)
-importFrom(graphics,boxplot)
-importFrom(graphics,image)
-importFrom(graphics,legend)
-importFrom(graphics,lines)
-importFrom(graphics,mtext)
-importFrom(graphics,par)
-importFrom(graphics,plot)
-importFrom(graphics,points)
-importFrom(graphics,polygon)
-importFrom(graphics,text)
-importFrom(stats,cor.test)
-importFrom(stats,deltat)
-importFrom(stats,density)
-importFrom(stats,end)
-importFrom(stats,frequency)
-importFrom(stats,friedman.test)
-importFrom(stats,median)
-importFrom(stats,na.exclude)
-importFrom(stats,optim)
-importFrom(stats,pbinom)
-importFrom(stats,qtukey)
-importFrom(stats,quantile)
-importFrom(stats,sd)
-importFrom(stats,start)
-importFrom(stats,time)
-importFrom(stats,ts)
-importFrom(stats,tsp)
-importFrom(utils,head)
-importFrom(utils,tail)
+importFrom(forecast,
+  Arima,
+  ets,
+  forecast,
+  forecast.ets
+)
+importFrom(grDevices,
+  colorRampPalette,
+  dev.cur,
+  dev.new,
+  gray,
+  rainbow,
+  rgb
+)
+importFrom(graphics,
+  abline,
+  axis,
+  box,
+  boxplot,
+  image,
+  legend,
+  lines,
+  mtext,
+  par,
+  plot,
+  plot.new,
+  plot.window,
+  points,
+  polygon,
+  rect,
+  segments,
+  strheight,
+  strwidth,
+  text,
+  title
+)
+importFrom(stats,
+  ave,
+  cor.test,
+  deltat,
+  density,
+  end,
+  frequency,
+  friedman.test,
+  median,
+  na.exclude,
+  optim,
+  pbinom,
+  qtukey,
+  quantile,
+  sd,
+  start,
+  time,
+  ts,
+  tsp
+)
+importFrom(utils,
+  head,
+  tail
+)

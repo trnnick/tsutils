@@ -3,7 +3,6 @@
 \docType{package}
 \name{tsutils-package}
 \alias{tsutils-package}
-\alias{_PACKAGE}
 \title{tsutils: Time Series Exploration, Modelling and Forecasting}
 \description{
 Includes: (i) tests and visualisations that can help the modeller explore time series components and perform decomposition; (ii) modelling shortcuts, such as functions to construct lagmatrices and seasonal dummy variables of various forms; (iii) an implementation of the Theta method; (iv) tools to facilitate the design of the forecasting process, such as ABC-XYZ analyses; and (v) "quality of life" functions, such as treating time series for trailing and leading values.
@@ -17,6 +16,11 @@ Useful links:
 }
 \author{
 \strong{Maintainer}: Nikolaos Kourentzes \email{nikolaos@kourentzes.com}
+
+Authors:
+\itemize{
+  \item Nikolaos Kourentzes \email{nikolaos@kourentzes.com}
+}
 
 Other contributors:
 \itemize{

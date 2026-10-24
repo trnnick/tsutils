@@ -22,6 +22,10 @@
 
 plotSthief <- function(y, labels=c(TRUE,FALSE), ...){
 
+  # Warn that this will be retired
+  .Deprecated("plotThief",package="tsutils",
+              msg="plotSthief will become obsolete in a future version of tsutils. Use plotThief instead.")
+
   labels <- labels[1]
 
   # Get S matrix

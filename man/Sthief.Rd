@@ -4,13 +4,15 @@
 \alias{Sthief}
 \title{Temporal hierarchy S matrix}
 \usage{
-Sthief(y)
+Sthief(y, k = NULL)
 }
 \arguments{
 \item{y}{input time series (a \code{ts} object) or an integer.}
+
+\item{k}{optional vector of temporal aggregation levels to include. These must be factors of the seasonal periodicity, i.e., \code{frequency(y)} or \code{y} if it is an integer. The bottom level (\code{k=1}) is always included. If \code{NULL}, all feasible aggregation levels are used.}
 }
 \value{
-S matrix.
+S matrix. Rows are ordered from the top level (largest \code{k}) to the bottom level (\code{k=1}). The top level does not need to be a single node, for example \code{Sthief(24,k=c(12,1))} gives two annual nodes over 24 months.
 }
 \description{
 Calculate the temporal hierarchy summing matrix S for a given time series of seasonal periodicity.
@@ -18,9 +20,19 @@ Calculate the temporal hierarchy summing matrix S for a given time series of sea
 \examples{
 Sthief(AirPassengers)
 
+# Only some aggregation levels: monthly, quarterly, and annual
+Sthief(12,k=c(12,3))
+
+# Two years of monthly data, with half-yearly, annual and 2-yearly levels
+S <- Sthief(24,k=c(24,12,6))
+plotThief(S,freq="monthly")
+
 }
 \references{
 Athanasopoulos, G., Hyndman, R. J., Kourentzes, N., & Petropoulos, F. (2017). \href{https://kourentzes.com/forecasting/2017/02/27/forecasting-with-temporal-hierarchies-3/}{Forecasting with temporal hierarchies}. European Journal of Operational Research, 262(1), 60-74.
+}
+\seealso{
+\code{\link{plotThief}}.
 }
 \author{
 Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

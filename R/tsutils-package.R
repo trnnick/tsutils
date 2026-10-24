@@ -28,7 +28,11 @@
 #' @section Hierarchical time series:
 #' \itemize{
 #' \item \code{\link{Sthief}}: temporal hierarchy S matrix.
-#' \item \code{\link{plotSthief}}: plot temporal hierarchy S matrix.
+#' \item \code{\link{plotSthief}}: plot temporal hierarchy S matrix. Obsolete, replaced by \code{\link{plotThief}}.
+#' \item \code{\link{plotS}}: general plotting function for S-matrices. Calls \code{\link{plotSblock}} or \code{\link{plotStree}}.
+#' \item \code{\link{plotSblock}}: plot an S-matrix using the block representation.
+#' \item \code{\link{plotStree}}: plot an S-matrix using the standard tree representation.
+#' \item \code{\link{plotThief}}: plot temporal hierarchy S matrix. Calls \code{\link{plotS}} and handles temporal names automatically.
 #' }
 #'
 #' @section Forecasting process modelling:
@@ -53,13 +57,11 @@
 #'
 #' @name tsutils
 #'
-#' @docType package
-#'
-#' @importFrom graphics plot lines par points polygon axis image abline box text boxplot legend mtext
-#' @importFrom stats frequency friedman.test qtukey na.exclude sd ts pbinom median density quantile start cor.test deltat end optim time tsp
+#' @importFrom graphics plot lines par points polygon axis image abline box text boxplot legend mtext rect segments strwidth strheight plot.new plot.window title
+#' @importFrom stats frequency friedman.test qtukey na.exclude sd ts pbinom median density quantile start cor.test deltat end optim time tsp ave
 #' @importFrom forecast ets forecast.ets Arima forecast
 #' @importFrom RColorBrewer brewer.pal
-#' @importFrom grDevices colorRampPalette gray rgb rainbow
+#' @importFrom grDevices colorRampPalette gray rgb rainbow dev.cur dev.new
 #' @importFrom utils tail head
 #' @importFrom MAPA tsaggr
 #'

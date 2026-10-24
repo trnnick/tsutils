@@ -40,7 +40,10 @@ The **tsutils** package provides functions to support various aspects of time se
 
 #### Hierarchical time series:
 * `Sthief`: temporal hierarchy S matrix.
-* `plotSthief`: plot temporal hierarchy S matrix.
+* `plotS`: Generic function to plot hierarchies (S matrix).
+* `plotSblock`: Function to plot S-matrices with block representation.
+* `plotStree`: Function to plot S-matrices with tree representation.
+* `plotThief`: Function to plot temporal hierarchies.
 
 #### Forecasting process modelling:
 * `abc`: ABC analysis.
