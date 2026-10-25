@@ -50,18 +50,20 @@ The **tsutils** package provides functions to support various aspects of time se
 * `xyz`: XYZ analysis.
 * `abcxyz`: ABC-XYZ analyses visualisation.
 
+
+#### Evaluation
+* `nemenyi`: column-wise Friedman and Nemenyi post-hoc testing.
+* `nemenyi.sens`: sensitivity of the Nemenyi test to the confidence level.
+
 #### Quality of life:
 * `geomean`: geometric mean.
 * `lambdaseq`: generate sequence of lambda for LASSO regression.
 * `leadtrail`: remove leading/training zeros/NAs.
 * `wins`: winsorisation, including vectorised versions `colWins` and `rowWins`.
+* `colour.blend`: emulate transparency colours for EPS exports.
 
 #### Time series data:
 * `referrals`: A&E monthly referrals.
-
-#### Evaluation
-* `nemenyi`: column-wise Friedman and Nemenyi post-hoc testing.
-* `nemenyi.sens`: sensitivity of the Nemenyi test to the confidence level.
 
 ## Authors & contributors
 

@@ -1,4 +1,4 @@
-# VERSION 0.9.5 (24 Oct 2026)
+# VERSION 0.9.5 (25 Oct 2026)
 - Nmeneyi: New type of plot, with plottype="ranges"
 - Nemenyi: Forced ordering of methods in plottype="matrix" for better readabilty
 - Nemenyi: Added output of model groups in console and plots (with option)
@@ -7,6 +7,7 @@
 - Sthief: Improved input handling and allow to skip levels of the hierarchy. 
 - plotSThief: This is now depreciated and will be removed in following versions of the package. Use the new plotThief instead.
 - New: nemenyi.sens: Run a sensitivity analysis on nemenyi testing results for a range of p-values.
+- New: colour.blend: Emulate alpha-transparency colours for EPS export compatible plots.
 - New: plotS: General function to plot hierarchies from an S-matrix. Calls plotSblock and plotStree.
 - New: plotSblock: New function to plot hierarchies using the block representation. 
 - New: plotStree: New function to plot hierarchies using the typical tree representation

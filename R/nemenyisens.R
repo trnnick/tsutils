@@ -19,7 +19,7 @@
 #' @param ... additional arguments passed to the \code{plot} function, see \code{\link{nemenyi}}.
 #'
 #' @details
-#' The pairwise p-value of treatments i and j is \code{1 - ptukey(|R_i - R_j| / sqrt(k(k+1)/(12n)), k, Inf)}, where \code{R} are the mean ranks. The pair is not significantly different at confidence levels above \code{1 - p}, which is the same outcome as \code{\link{nemenyi}} at that level. Graphical parameters are handled as in \code{\link{nemenyi}}.
+#' The pairwise p-value of treatments i and j is \code{1 - ptukey(|R_i - R_j| / sqrt(k(k+1)/(12n)), k, Inf)}, where \code{R} are the mean ranks. The pair is not significantly different at confidence levels above \code{1 - p}, which is the same outcome as \code{\link{nemenyi}} at that level. Graphical parameters and colours are handled as in \code{\link{nemenyi}}.
 #'
 #' @return Return object of class \code{nemenyi.sens} and contains:
 #' \itemize{
@@ -177,17 +177,23 @@ nemenyi.sens <- function(data, conf.level=NULL, conf.range=c(0.80,0.999), ref=NU
     }
     do.call(graphics::plot,args)
 
-    # Columns where Friedman is not significant, reference level and guides
+    # Columns where Friedman is not significant and reference level. Fills are
+    # opaque, so they are drawn first and the reference fill is mixed with the grey
+    fill.fns <- colour.blend("gray50",0.2)
     for (l in which(fried.ns)){
-      graphics::rect(l-0.5,0.5,l+0.5,k+0.5,col=grDevices::adjustcolor("gray50",alpha.f=0.2),border=NA)
+      graphics::rect(l-0.5,0.5,l+0.5,k+0.5,col=fill.fns,border=NA)
     }
+    if (length(ref.col) > 0){
+      fill.ref <- colour.blend(col.best,0.08,bg=if (fried.ns[ref.col]) fill.fns else graphics::par("bg"))
+      graphics::rect(ref.col-0.5,0.5,ref.col+0.5,k+0.5,col=fill.ref,border=NA)
+    }
+    # Guides
     graphics::abline(h=1:k,col="gray85",lty=3)
     if (L > 1){
       graphics::abline(v=(1:(L-1))+0.5,col="gray70")
     }
     if (length(ref.col) > 0){
-      graphics::rect(ref.col-0.5,0.5,ref.col+0.5,k+0.5,col=grDevices::adjustcolor(col.best,alpha.f=0.08),
-                     border=col.best,lty=2,lwd=1.5)
+      graphics::rect(ref.col-0.5,0.5,ref.col+0.5,k+0.5,col=NA,border=col.best,lty=2,lwd=1.5)
     }
 
     y <- k:1
@@ -229,7 +235,7 @@ nemenyi.sens <- function(data, conf.level=NULL, conf.range=c(0.80,0.999), ref=NU
     pmin <- 0.001
     shade <- function(p){
       t <- (log10(pmax(p,pmin)) - log10(pmin))/(-log10(pmin))
-      grDevices::adjustcolor(col.ns, alpha.f=0.05+0.85*t)
+      colour.blend(col.ns, 0.05+0.85*t)
     }
     key.at <- c(0.001,0.01,0.05,0.1,1)
     key.lab <- c("<0.001","0.01","0.05","0.1","1")
@@ -248,13 +254,14 @@ nemenyi.sens <- function(data, conf.level=NULL, conf.range=c(0.80,0.999), ref=NU
     do.call(graphics::plot,args)
 
     cex.cell <- min(ax$cex.axis, 0.85/graphics::strwidth("<0.001"), 0.6/graphics::strheight("0.00"))
+    # Cells are not clipped and axes have no line, so all borders have the same width
     for (i in 1:k){
       yy <- k - i + 1
       for (j in 1:i){
         if (i == j){
-          graphics::rect(j-0.5,yy-0.5,j+0.5,yy+0.5,col=fg,border=fg)
+          graphics::rect(j-0.5,yy-0.5,j+0.5,yy+0.5,col=fg,border=fg,xpd=NA)
         } else {
-          graphics::rect(j-0.5,yy-0.5,j+0.5,yy+0.5,col=shade(pval[i,j]),border=fg)
+          graphics::rect(j-0.5,yy-0.5,j+0.5,yy+0.5,col=shade(pval[i,j]),border=fg,xpd=NA)
           if (cex.cell >= 0.4){
             ptxt <- if (pval[i,j] < pmin) "<0.001" else sprintf("%1.3f",pval[i,j])
             graphics::text(j,yy,ptxt,cex=cex.cell,col=fg,family=ax$family)
@@ -278,8 +285,8 @@ nemenyi.sens <- function(data, conf.level=NULL, conf.range=c(0.80,0.999), ref=NU
     # Reference significance level
     if (!is.null(ref)) graphics::segments(ux(key.pos-0.1),ky(1-ref),ux(key.pos+0.9),ky(1-ref),col=col.best,lwd=2,xpd=NA)
 
-    nemenyi.axis(1,lay,ax,at=1:k,labels=lbl,las=2)
-    nemenyi.axis(2,lay,ax,at=k:1,labels=lbl.rank,las=2)
+    nemenyi.axis(1,lay,ax,at=1:k,labels=lbl,las=2,lwd=0,lwd.ticks=graphics::par("lwd"))
+    nemenyi.axis(2,lay,ax,at=k:1,labels=lbl.rank,las=2,lwd=0,lwd.ticks=graphics::par("lwd"))
     nemenyi.titles(xlab,ylab,main,lay,ax)
 
   }

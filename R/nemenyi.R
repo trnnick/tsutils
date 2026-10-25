@@ -206,7 +206,8 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
     mar.user <- graphics::par("mar")
     on.exit(graphics::par(mar=mar.user), add=TRUE)
 
-    # Colours (semi-transparent fills work on any background)
+    # Colours. Light fills are opaque, mixed with the background, so that they
+    # are kept in devices that do not support semi-transparency (e.g. postscript)
     fg <- graphics::par("fg")
     col.best <- RColorBrewer::brewer.pal(3,"Set1")[1]
     col.ns <- RColorBrewer::brewer.pal(3,"Set1")[2]
@@ -308,10 +309,10 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
     # Colours
     if (fried.sig){
       fill.tested <- fg
-      fill.ns <- grDevices::adjustcolor(col.ns,alpha.f=0.5)
+      fill.ns <- colour.blend(col.ns,0.5)
     } else {
       fill.tested <- "gray50"
-      fill.ns <- grDevices::adjustcolor("gray50",alpha.f=0.4)
+      fill.ns <- colour.blend("gray50",0.4)
     }
 
     # Margins for both label axes, and letters on the right
@@ -340,16 +341,19 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
     cex.cell <- min(1, 0.8/graphics::strwidth("0.00"), 0.6/graphics::strheight("0.00"))
 
     # Best method at the top. Full matrix, or lower triangle only
+    # Cells are not clipped, so that borders on the edge of the plot region have the
+    # same width as the inner ones. Axes are drawn without a line, only ticks, so that
+    # they do not thicken the outer borders
     for (i in 1:cols.number){
       y <- cols.number - i + 1
       cols.plot <- if (plottype == "matrix") 1:cols.number else 1:i
       for (j in cols.plot){
         if (i == j){
           fcol <- if (!is.null(select) && (select == i)) col.best else fill.tested
-          graphics::rect(j-0.5,y-0.5,j+0.5,y+0.5,col=fcol,border=fg)
+          graphics::rect(j-0.5,y-0.5,j+0.5,y+0.5,col=fcol,border=fg,xpd=NA)
         } else {
           fcol <- if (ranks.same[i,j]) fill.ns else NA
-          graphics::rect(j-0.5,y-0.5,j+0.5,y+0.5,col=fcol,border=fg)
+          graphics::rect(j-0.5,y-0.5,j+0.5,y+0.5,col=fcol,border=fg,xpd=NA)
           # Add rank differences
           # Makes the figure cluttered. I need to figure out a better way to show this
           # if (cex.cell >= 0.4){
@@ -359,8 +363,8 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
       }
     }
 
-    nemenyi.axis(1,lay,ax,at=1:cols.number,labels=lbl,las=2)
-    nemenyi.axis(2,lay,ax,at=cols.number:1,labels=lbl.rank,las=2)
+    nemenyi.axis(1,lay,ax,at=1:cols.number,labels=lbl,las=2,lwd=0,lwd.ticks=graphics::par("lwd"))
+    nemenyi.axis(2,lay,ax,at=cols.number:1,labels=lbl.rank,las=2,lwd=0,lwd.ticks=graphics::par("lwd"))
     if (group){
       if (plottype == "matrix"){
         nemenyi.axis(4,lay,ax,at=cols.number:1,labels=ranks.cld,las=2,tick=FALSE)
@@ -383,10 +387,10 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
 
     # Colours
     if (fried.sig){
-      band.col <- grDevices::adjustcolor(col.ns,alpha.f=0.25)
+      band.col <- colour.blend(col.ns,0.25)
       pcol <- col.ns
     } else {
-      band.col <- grDevices::adjustcolor("gray50",alpha.f=0.25)
+      band.col <- colour.blend("gray50",0.25)
       pcol <- "gray50"
     }
 
@@ -407,13 +411,17 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
     }
     do.call(graphics::plot,args)
 
-    # Guides at the mean rank of each method
+    # Bands of no significant difference from the tested method
+    for (i in 1:cols.number){
+      y <- cols.number - i + 1
+      graphics::rect(ranks.means[i]-r.stat,y-0.3,ranks.means[i]+r.stat,y+0.3,col=band.col,border=NA)
+    }
+
+    # Guides at the mean rank of each method, drawn over the opaque bands
     graphics::abline(v=ranks.means,col="gray80",lty=3)
 
     for (i in 1:cols.number){
       y <- cols.number - i + 1
-      # Band of no significant difference from the tested method
-      graphics::rect(ranks.means[i]-r.stat,y-0.3,ranks.means[i]+r.stat,y+0.3,col=band.col,border=NA)
       same <- ranks.same[i,]
       same[i] <- FALSE
       diffr <- !ranks.same[i,]

@@ -59,7 +59,7 @@ Return object of class \code{nemenyi.sens} and contains:
 Shows how the grouping of treatments by the Nemenyi test changes with the confidence level. As the test uses a single critical distance for all pairs, each pair of treatments changes from significantly different to not significantly different at exactly one confidence level, given by its pairwise p-value. The groupings therefore change only at these levels and are constant in between, so all distinct groupings can be found exactly.
 }
 \details{
-The pairwise p-value of treatments i and j is \code{1 - ptukey(|R_i - R_j| / sqrt(k(k+1)/(12n)), k, Inf)}, where \code{R} are the mean ranks. The pair is not significantly different at confidence levels above \code{1 - p}, which is the same outcome as \code{\link{nemenyi}} at that level. Graphical parameters are handled as in \code{\link{nemenyi}}.
+The pairwise p-value of treatments i and j is \code{1 - ptukey(|R_i - R_j| / sqrt(k(k+1)/(12n)), k, Inf)}, where \code{R} are the mean ranks. The pair is not significantly different at confidence levels above \code{1 - p}, which is the same outcome as \code{\link{nemenyi}} at that level. Graphical parameters and colours are handled as in \code{\link{nemenyi}}.
 }
 \examples{
 x <- matrix( rnorm(50*4,mean=0,sd=1), 50, 4)
