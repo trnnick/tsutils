@@ -44,12 +44,12 @@ The **tsutils** package provides functions to support various aspects of time se
 * `plotSblock`: Function to plot S-matrices with block representation.
 * `plotStree`: Function to plot S-matrices with tree representation.
 * `plotThief`: Function to plot temporal hierarchies.
+* `Saugment`: Augment hierarchy with discrepancy series.
 
 #### Forecasting process modelling:
 * `abc`: ABC analysis.
 * `xyz`: XYZ analysis.
 * `abcxyz`: ABC-XYZ analyses visualisation.
-
 
 #### Evaluation
 * `nemenyi`: column-wise Friedman and Nemenyi post-hoc testing.
