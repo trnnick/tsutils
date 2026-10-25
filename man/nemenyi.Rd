@@ -8,10 +8,11 @@ nemenyi(
   data,
   conf.level = 0.95,
   sort = c(TRUE, FALSE),
-  plottype = c("vline", "none", "mcb", "vmcb", "line", "matrix", "ranges"),
+  plottype = c("vline", "none", "mcb", "vmcb", "line", "matrix", "lmatrix", "ranges"),
   select = NULL,
   labels = NULL,
-  cld = NULL,
+  group = NULL,
+  line = c(main = NA, xlab = NA, ylab = NA, xaxis = NA, yaxis = NA, group = NA),
   ...
 )
 }
@@ -29,7 +30,8 @@ nemenyi(
  \item \code{"vmcb"}: vertical \emph{MCB} plot.
  \item \code{"line"}: summarised \emph{line} plot. Each line connects a group of treatments that are all not significantly different.
  \item \code{"vline"}: vertical \emph{line} plot.
- \item \code{"matrix"}: \emph{matrix} visualisation. Both axes are in mean rank order, each row/column is a tested treatment (dark cell on the diagonal), and the lower triangle gives the absolute difference in mean ranks for each pair. Shaded cells indicate no evidence of significant difference.
+ \item \code{"matrix"}: \emph{matrix} visualisation. Both axes are in mean rank order and each row/column is a tested treatment (dark cell on the diagonal). Each off-diagonal cell gives the comparison of a pair of treatments; shaded cells indicate no evidence of significant difference. As the comparison is symmetric, the upper triangle mirrors the lower, so each row can be read on its own as the outcome for the tested treatment.
+ \item \code{"lmatrix"}: lower triangular \emph{matrix} visualisation. Both axes are in mean rank order, each row/column is a tested treatment (dark cell on the diagonal), and only the lower triangle of the matrix is shown, giving the comparison for each pair once. Shaded cells indicate no evidence of significant difference.
  \item \code{"ranges"}: \emph{anchored} plot. One row per tested treatment on a common mean rank axis. The shaded band is the tested treatment's mean rank +/- the critical distance; treatments inside the band (filled points) are not significantly different from it, treatments outside (open points) are.
  }}
 
@@ -37,9 +39,20 @@ nemenyi(
 
 \item{labels}{optional labels for models. If NULL column names of \code{data} will be used.}
 
-\item{cld}{if \code{TRUE}, show the compact letter display: treatments that share a letter are not significantly different. For \code{"ranges"} the letters are shown on the right axis, for the other plots they are appended to the labels. If \code{NULL} (default), they are shown only for \code{"ranges"}.}
+\item{group}{if \code{TRUE}, show the group membership with a compact letter display: treatments that share a letter are not significantly different. For \code{"ranges"}, \code{"vline"} and \code{"matrix"} the letters are shown on the right axis, for \code{"line"} on the top axis, for \code{"lmatrix"} in the empty upper triangle, next to each diagonal cell, and for \code{"mcb"} and \code{"vmcb"} they are appended to the labels. If \code{NULL} (default), they are shown for all plots except \code{"mcb"} and \code{"vmcb"}.}
 
-\item{...}{additional arguments passed to the \code{plot} function. Axis annotation arguments (\code{cex.axis}, \code{font.axis}, \code{col.axis}, \code{cex.lab}, \code{font.lab}, \code{col.lab}, \code{mgp}) are also used for the axes the function draws.}
+\item{line}{margin lines (as in the \code{line} argument of \code{title} and \code{mtext}) where the plot annotation is placed. A named vector with elements:
+\itemize{
+ \item \code{main}: plot title.
+ \item \code{xlab}: x-axis title.
+ \item \code{ylab}: y-axis title.
+ \item \code{xaxis}: x-axis labels (treatment labels or numbers).
+ \item \code{yaxis}: y-axis labels (treatment labels or numbers).
+ \item \code{group}: compact letter display, see \code{group}. For \code{"lmatrix"} this is the distance from the right edge of the diagonal cell.
+ }
+Elements that are \code{NA} are placed automatically: axis labels and letters at \code{par("mgp")[2]} (letters at 0.3 for \code{"lmatrix"}), axis titles outside the axis labels and the title above the letters when these are on the top axis (otherwise in its default position). Only the elements to change need to be given, e.g. \code{line=c(main=0.5, ylab=10)}; an unnamed vector is assigned in the order above. Margins are enlarged to fit the requested lines.}
+
+\item{...}{additional arguments passed to the \code{plot} function. Axis annotation arguments (\code{cex.axis}, \code{font.axis}, \code{col.axis}, \code{cex.lab}, \code{font.lab}, \code{col.lab}, \code{cex.main}, \code{font.main}, \code{col.main}, \code{mgp}) are also used for the axes and titles the function draws.}
 }
 \value{
 Return object of class \code{nemenyi} and contains:
@@ -52,7 +65,7 @@ Return object of class \code{nemenyi} and contains:
 \item \code{conf.level}: confidence level used for testing.
 \item \code{k}: number of treatments (columns).
 \item \code{n}: number of observations (rows).
-\item \code{cld}: compact letter display; treatments sharing a letter are not significantly different.
+\item \code{group}: group membership as a compact letter display; treatments sharing a letter are not significantly different.
 \item \code{diff}: k x k matrix of absolute differences in mean ranks. Pairs with a difference smaller than \code{cd} are not significantly different.
 }
 }
@@ -60,7 +73,7 @@ Return object of class \code{nemenyi} and contains:
 Perform nonparametric multiple comparisons, across columns, using the Friedman and the post-hoc Nemenyi tests.
 }
 \details{
-Plots respect the graphical parameters currently set with \code{par()} (for example \code{mfrow}, \code{cex}, \code{mgp}, \code{fg}, \code{bg}, \code{family} or \code{las} for numerical axes). The only parameter changed is \code{mar}: margins that are too small for the treatment labels are enlarged, using the actual width of the labels, while all other margins are kept as set by the user. The user's \code{mar} is restored when the function exits. As the plot region depends on the margins, low-level additions to the plot after the call (e.g. \code{abline}) may not align; set \code{par(mar=...)} large enough for the labels beforehand to avoid this.
+Plots respect the graphical parameters currently set with \code{par()} (for example \code{mfrow}, \code{cex}, \code{mgp}, \code{fg}, \code{bg}, \code{family} or \code{las} for numerical axes). The only parameter changed is \code{mar}: margins that are too small for the treatment labels, the group letters or the lines requested in \code{line} are enlarged, using the actual width of the labels, while all other margins are kept as set by the user. The user's \code{mar} is restored when the function exits. As the plot region depends on the margins, low-level additions to the plot after the call (e.g. \code{abline}) may not align; set \code{par(mar=...)} large enough for the labels beforehand to avoid this.
 }
 \examples{
 x <- matrix( rnorm(50*4,mean=0,sd=1), 50, 4)
@@ -70,7 +83,9 @@ x[,4] <- x[,4]+0.5
 colnames(x) <- c("Method A","Method B","Method C - long name","Method D")
 nemenyi(x,conf.level=0.95,plottype="vline")
 nemenyi(x,plottype="matrix")
+nemenyi(x,plottype="lmatrix")
 nemenyi(x,plottype="ranges")
+nemenyi(x,plottype="line",ylab="Groups",line=c(main=0.5,group=0.2))
 
 }
 \references{

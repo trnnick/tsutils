@@ -12,16 +12,27 @@
 #'  \item \code{"vmcb"}: vertical \emph{MCB} plot.
 #'  \item \code{"line"}: summarised \emph{line} plot. Each line connects a group of treatments that are all not significantly different.
 #'  \item \code{"vline"}: vertical \emph{line} plot.
-#'  \item \code{"matrix"}: \emph{matrix} visualisation. Both axes are in mean rank order, each row/column is a tested treatment (dark cell on the diagonal), and the lower triangle gives the absolute difference in mean ranks for each pair. Shaded cells indicate no evidence of significant difference.
+#'  \item \code{"matrix"}: \emph{matrix} visualisation. Both axes are in mean rank order and each row/column is a tested treatment (dark cell on the diagonal). Each off-diagonal cell gives the comparison of a pair of treatments; shaded cells indicate no evidence of significant difference. As the comparison is symmetric, the upper triangle mirrors the lower, so each row can be read on its own as the outcome for the tested treatment.
+#'  \item \code{"lmatrix"}: lower triangular \emph{matrix} visualisation. Both axes are in mean rank order, each row/column is a tested treatment (dark cell on the diagonal), and only the lower triangle of the matrix is shown, giving the comparison for each pair once. Shaded cells indicate no evidence of significant difference.
 #'  \item \code{"ranges"}: \emph{anchored} plot. One row per tested treatment on a common mean rank axis. The shaded band is the tested treatment's mean rank +/- the critical distance; treatments inside the band (filled points) are not significantly different from it, treatments outside (open points) are.
 #'  }
 #' @param select highlight selected treatment (column). Number 1 to k. Use NULL for no highlighting.
 #' @param labels optional labels for models. If NULL column names of \code{data} will be used.
-#' @param cld if \code{TRUE}, show the compact letter display: treatments that share a letter are not significantly different. For \code{"ranges"} the letters are shown on the right axis, for the other plots they are appended to the labels. If \code{NULL} (default), they are shown only for \code{"ranges"}.
-#' @param ... additional arguments passed to the \code{plot} function. Axis annotation arguments (\code{cex.axis}, \code{font.axis}, \code{col.axis}, \code{cex.lab}, \code{font.lab}, \code{col.lab}, \code{mgp}) are also used for the axes the function draws.
+#' @param group if \code{TRUE}, show the group membership with a compact letter display: treatments that share a letter are not significantly different. For \code{"ranges"}, \code{"vline"} and \code{"matrix"} the letters are shown on the right axis, for \code{"line"} on the top axis, for \code{"lmatrix"} in the empty upper triangle, next to each diagonal cell, and for \code{"mcb"} and \code{"vmcb"} they are appended to the labels. If \code{NULL} (default), they are shown for all plots except \code{"mcb"} and \code{"vmcb"}.
+#' @param line margin lines (as in the \code{line} argument of \code{title} and \code{mtext}) where the plot annotation is placed. A named vector with elements:
+#' \itemize{
+#'  \item \code{main}: plot title.
+#'  \item \code{xlab}: x-axis title.
+#'  \item \code{ylab}: y-axis title.
+#'  \item \code{xaxis}: x-axis labels (treatment labels or numbers).
+#'  \item \code{yaxis}: y-axis labels (treatment labels or numbers).
+#'  \item \code{group}: compact letter display, see \code{group}. For \code{"lmatrix"} this is the distance from the right edge of the diagonal cell.
+#'  }
+#' Elements that are \code{NA} are placed automatically: axis labels and letters at \code{par("mgp")[2]} (letters at 0.3 for \code{"lmatrix"}), axis titles outside the axis labels and the title above the letters when these are on the top axis (otherwise in its default position). Only the elements to change need to be given, e.g. \code{line=c(main=0.5, ylab=10)}; an unnamed vector is assigned in the order above. Margins are enlarged to fit the requested lines.
+#' @param ... additional arguments passed to the \code{plot} function. Axis annotation arguments (\code{cex.axis}, \code{font.axis}, \code{col.axis}, \code{cex.lab}, \code{font.lab}, \code{col.lab}, \code{cex.main}, \code{font.main}, \code{col.main}, \code{mgp}) are also used for the axes and titles the function draws.
 #'
 #' @details
-#' Plots respect the graphical parameters currently set with \code{par()} (for example \code{mfrow}, \code{cex}, \code{mgp}, \code{fg}, \code{bg}, \code{family} or \code{las} for numerical axes). The only parameter changed is \code{mar}: margins that are too small for the treatment labels are enlarged, using the actual width of the labels, while all other margins are kept as set by the user. The user's \code{mar} is restored when the function exits. As the plot region depends on the margins, low-level additions to the plot after the call (e.g. \code{abline}) may not align; set \code{par(mar=...)} large enough for the labels beforehand to avoid this.
+#' Plots respect the graphical parameters currently set with \code{par()} (for example \code{mfrow}, \code{cex}, \code{mgp}, \code{fg}, \code{bg}, \code{family} or \code{las} for numerical axes). The only parameter changed is \code{mar}: margins that are too small for the treatment labels, the group letters or the lines requested in \code{line} are enlarged, using the actual width of the labels, while all other margins are kept as set by the user. The user's \code{mar} is restored when the function exits. As the plot region depends on the margins, low-level additions to the plot after the call (e.g. \code{abline}) may not align; set \code{par(mar=...)} large enough for the labels beforehand to avoid this.
 #'
 #' @return Return object of class \code{nemenyi} and contains:
 #' \itemize{
@@ -33,7 +44,7 @@
 #' \item \code{conf.level}: confidence level used for testing.
 #' \item \code{k}: number of treatments (columns).
 #' \item \code{n}: number of observations (rows).
-#' \item \code{cld}: compact letter display; treatments sharing a letter are not significantly different.
+#' \item \code{group}: group membership as a compact letter display; treatments sharing a letter are not significantly different.
 #' \item \code{diff}: k x k matrix of absolute differences in mean ranks. Pairs with a difference smaller than \code{cd} are not significantly different.
 #' }
 #'
@@ -58,17 +69,20 @@
 #' colnames(x) <- c("Method A","Method B","Method C - long name","Method D")
 #' nemenyi(x,conf.level=0.95,plottype="vline")
 #' nemenyi(x,plottype="matrix")
+#' nemenyi(x,plottype="lmatrix")
 #' nemenyi(x,plottype="ranges")
+#' nemenyi(x,plottype="line",ylab="Groups",line=c(main=0.5,group=0.2))
 #'
 #' @export nemenyi
 
 nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
-                    plottype=c("vline","none","mcb","vmcb","line","matrix","ranges"),
-                    select=NULL, labels=NULL, cld=NULL, ...){
+                    plottype=c("vline","none","mcb","vmcb","line","matrix","lmatrix","ranges"),
+                    select=NULL, labels=NULL, group=NULL,
+                    line=c("main"=NA,"xlab"=NA,"ylab"=NA,"xaxis"=NA,"yaxis"=NA,"group"=NA), ...){
 
   # Default
   sort <- sort[1]
-  plottype <- match.arg(plottype,c("vline","none","mcb","vmcb","line","matrix","ranges"))
+  plottype <- match.arg(plottype,c("vline","none","mcb","vmcb","line","matrix","lmatrix","ranges"))
 
   # Check data
   if (length(dim(data)) != 2){
@@ -92,10 +106,13 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
     sort <- TRUE
   }
 
-  # Compact letter display shown by default only for ranges plot
-  if (is.null(cld)){
-    cld <- plottype == "ranges"
+  # Group letters shown by default for all plots, except MCB where they are appended to the labels
+  if (is.null(group)){
+    group <- !(plottype %in% c("mcb","vmcb"))
   }
+
+  # Lines for plot annotation
+  line <- nemenyi.line(line)
 
   # Checks for labels
   if (is.null(labels)){
@@ -159,10 +176,13 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
   if (plottype != "none"){
     args <- list(...)
 
-    # Create title for plots
+    # Create title for plots. It is drawn separately, so that its line can be controlled
     if (is.null(args[["main"]])){
-      args$main <- paste0("Friedman: ", format(round(fried.pval,3),nsmall=3), " (", fried.H, ")\nCritical distance: ", format(round(r.stat,3),nsmall=3))
+      main <- paste0("Friedman: ", format(round(fried.pval,3),nsmall=3), " (", fried.H, ")\nCritical distance: ", format(round(r.stat,3),nsmall=3))
+    } else {
+      main <- args[["main"]]
     }
+    args$main <- NULL
 
     # Remaining defaults
     if (is.null(args[["xaxs"]])){
@@ -191,11 +211,14 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
     col.best <- RColorBrewer::brewer.pal(3,"Set1")[1]
     col.ns <- RColorBrewer::brewer.pal(3,"Set1")[2]
 
-    # Prepare method labels, with letters if requested, and add mean rank to them
-    if (cld && plottype != "ranges"){
+    # Prepare method labels, with letters for MCB plots if requested, and add mean rank to them
+    # For all other plots the letters are shown on a separate axis
+    if (group && (plottype %in% c("mcb","vmcb"))){
       lbl <- paste0(labels," [",ranks.cld,"]")
+      gtxt <- NULL
     } else {
       lbl <- labels
+      gtxt <- if (group) ranks.cld else NULL
     }
     lbl.rank <- paste0(lbl," - ",sprintf("%1.2f",round(ranks.means,2)))
   }
@@ -221,7 +244,7 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
       if(is.null(args[["ylim"]])){
         args$ylim <- mnmx
       }
-      mm <- nemenyi.margins(mar.user,1,list(lbl.rank),list(xlab),ax)
+      lay <- nemenyi.layout(mar.user,line,ax,xlab,ylab,main,xtxt=lbl.rank)
     } else { # Vertical
       if (is.null(list(...)[["xlab"]])){
         xlab <- "Mean ranks"
@@ -232,9 +255,9 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
       if(is.null(args[["xlim"]])){
         args$xlim <- mnmx
       }
-      mm <- nemenyi.margins(mar.user,2,list(lbl.rank),list(ylab),ax)
+      lay <- nemenyi.layout(mar.user,line,ax,xlab,ylab,main,ytxt=lbl.rank)
     }
-    graphics::par(mar=mm$mar)
+    graphics::par(mar=lay$mar)
 
     if (is.null(select)){
       sel <- 1
@@ -250,8 +273,8 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
       graphics::polygon(c(0,rep(cols.number+1,2),0),rep(ranks.means[sel],4)+r.stat/2*c(1,1,-1,-1),col="gray90",border=NA)
       # Ranks
       graphics::points(1:cols.number,ranks.means,pch=20,lwd=3,col=fg)
-      nemenyi.axis(1,at=1:cols.number,labels=lbl.rank,ax=ax,las=2)
-      nemenyi.axis(2,ax=ax)
+      nemenyi.axis(1,lay,ax,at=1:cols.number,labels=lbl.rank,las=2)
+      nemenyi.axis(2,lay,ax)
       # Intervals for all methods
       for (i in 1:cols.number){
         graphics::lines(rep(i,times=2),ranks.means[i]+c(-1,1)*0.5*r.stat, type="o", lwd=1, col=pcol,pch=20)
@@ -264,8 +287,8 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
       graphics::polygon(rep(ranks.means[sel],4)+r.stat/2*c(1,1,-1,-1),c(0,rep(cols.number+1,2),0),col="gray90",border=NA)
       # Ranks
       graphics::points(ranks.means,1:cols.number,pch=20,lwd=3,col=fg)
-      nemenyi.axis(2,at=1:cols.number,labels=lbl.rank,ax=ax,las=2)
-      nemenyi.axis(1,ax=ax)
+      nemenyi.axis(2,lay,ax,at=1:cols.number,labels=lbl.rank,las=2)
+      nemenyi.axis(1,lay,ax)
       # Intervals for all methods
       for (i in 1:cols.number){
         graphics::lines(ranks.means[i]+c(-1,1)*0.5*r.stat, rep(i,times=2), type="o", lwd=1, col=pcol,pch=20)
@@ -275,12 +298,12 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
       graphics::points(ranks.means[idx],(1:cols.number)[idx],pch=20,lwd=3,col=col.best)
     }
     graphics::box(which="plot")
-    nemenyi.titles(xlab,ylab,mm$title.line,ax)
+    nemenyi.titles(xlab,ylab,main,lay,ax)
 
   }
 
-  # Matrix visualisation
-  if (plottype == "matrix"){
+  # Matrix visualisations, full or lower triangle
+  if ((plottype == "matrix")|(plottype == "lmatrix")){
 
     # Colours
     if (fried.sig){
@@ -291,9 +314,19 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
       fill.ns <- grDevices::adjustcolor("gray50",alpha.f=0.4)
     }
 
-    # Margins for both label axes
-    mm <- nemenyi.margins(mar.user,c(1,2),list(lbl,lbl.rank),list(xlab,ylab),ax)
-    graphics::par(mar=mm$mar)
+    # Margins for both label axes, and letters on the right
+    # For lmatrix the letters are next to the diagonal, so only the last one
+    # (bottom row) reaches the right margin
+    if (plottype == "lmatrix"){
+      if (is.na(line["group"])){
+        line["group"] <- 0.3
+      }
+      if (!is.null(gtxt)){
+        gtxt <- gtxt[cols.number]
+      }
+    }
+    lay <- nemenyi.layout(mar.user,line,ax,xlab,ylab,main,xtxt=lbl,ytxt=lbl.rank,gtxt=gtxt,gside=4)
+    graphics::par(mar=lay$mar)
 
     if(is.null(args[["xlim"]])){
       args$xlim <- c(0.5,cols.number+0.5)
@@ -306,10 +339,11 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
     # Size of numbers in cells, so that they fit in a cell
     cex.cell <- min(1, 0.8/graphics::strwidth("0.00"), 0.6/graphics::strheight("0.00"))
 
-    # Best method at the top, lower triangle only
+    # Best method at the top. Full matrix, or lower triangle only
     for (i in 1:cols.number){
       y <- cols.number - i + 1
-      for (j in 1:i){
+      cols.plot <- if (plottype == "matrix") 1:cols.number else 1:i
+      for (j in cols.plot){
         if (i == j){
           fcol <- if (!is.null(select) && (select == i)) col.best else fill.tested
           graphics::rect(j-0.5,y-0.5,j+0.5,y+0.5,col=fcol,border=fg)
@@ -325,9 +359,22 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
       }
     }
 
-    nemenyi.axis(1,at=1:cols.number,labels=lbl,ax=ax,las=2)
-    nemenyi.axis(2,at=cols.number:1,labels=lbl.rank,ax=ax,las=2)
-    nemenyi.titles(xlab,ylab,mm$title.line,ax)
+    nemenyi.axis(1,lay,ax,at=1:cols.number,labels=lbl,las=2)
+    nemenyi.axis(2,lay,ax,at=cols.number:1,labels=lbl.rank,las=2)
+    if (group){
+      if (plottype == "matrix"){
+        nemenyi.axis(4,lay,ax,at=cols.number:1,labels=ranks.cld,las=2,tick=FALSE)
+      } else {
+        # Letters in the empty upper triangle, right of each diagonal cell
+        # Convert margin lines to user x units
+        usr <- graphics::par("usr")
+        dx <- lay$line[["group"]]*graphics::par("csi")*graphics::par("mex") /
+          (graphics::par("pin")[1]/diff(usr[1:2]))
+        graphics::text((1:cols.number)+0.5+dx, cols.number:1, ranks.cld, adj=c(0,0.5), xpd=NA,
+                       cex=ax$cex.axis, font=ax$font.axis, col=ax$col.axis, family=ax$family)
+      }
+    }
+    nemenyi.titles(xlab,ylab,main,lay,ax)
 
   }
 
@@ -348,12 +395,8 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
     }
 
     # Margins for labels, and letters on the right
-    if (cld){
-      mm <- nemenyi.margins(mar.user,c(2,4),list(lbl.rank,ranks.cld),list(ylab,""),ax)
-    } else {
-      mm <- nemenyi.margins(mar.user,2,list(lbl.rank),list(ylab),ax)
-    }
-    graphics::par(mar=mm$mar)
+    lay <- nemenyi.layout(mar.user,line,ax,xlab,ylab,main,ytxt=lbl.rank,gtxt=gtxt,gside=4)
+    graphics::par(mar=lay$mar)
 
     if(is.null(args[["xlim"]])){
       mnmx <- range(ranks.means) + c(-1,1)*r.stat
@@ -384,13 +427,13 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
                        col=if (!is.null(select) && (select == i)) col.best else fg)
     }
 
-    nemenyi.axis(1,ax=ax)
-    nemenyi.axis(2,at=cols.number:1,labels=lbl.rank,ax=ax,las=2)
-    if (cld){
-      nemenyi.axis(4,at=cols.number:1,labels=ranks.cld,ax=ax,las=2,tick=FALSE)
+    nemenyi.axis(1,lay,ax)
+    nemenyi.axis(2,lay,ax,at=cols.number:1,labels=lbl.rank,las=2)
+    if (group){
+      nemenyi.axis(4,lay,ax,at=cols.number:1,labels=ranks.cld,las=2,tick=FALSE)
     }
     graphics::box(which="plot")
-    nemenyi.titles(xlab,ylab,mm$title.line,ax)
+    nemenyi.titles(xlab,ylab,main,lay,ax)
 
   }
 
@@ -414,7 +457,8 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
       if(is.null(args[["ylim"]])){
         args$ylim <- c(0,k+1)
       }
-      mm <- nemenyi.margins(mar.user,1,list(lbl.rank),list(xlab),ax)
+      # Labels at the bottom, letters at the top
+      lay <- nemenyi.layout(mar.user,line,ax,xlab,ylab,main,xtxt=lbl.rank,gtxt=gtxt,gside=3)
     } else { # vline
       if(is.null(args[["xlim"]])){
         args$xlim <- c(0,k+1)
@@ -422,9 +466,10 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
       if(is.null(args[["ylim"]])){
         args$ylim <- c(1,cols.number)
       }
-      mm <- nemenyi.margins(mar.user,2,list(lbl.rank),list(ylab),ax)
+      # Labels on the left, letters on the right
+      lay <- nemenyi.layout(mar.user,line,ax,xlab,ylab,main,ytxt=lbl.rank,gtxt=gtxt,gside=4)
     }
-    graphics::par(mar=mm$mar)
+    graphics::par(mar=lay$mar)
 
     do.call(graphics::plot,args)
 
@@ -437,7 +482,10 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
           graphics::lines(rep(rline[i,2],times=2),c(0,i), col="gray", lty = 2)
         }
       }
-      nemenyi.axis(1,at=1:cols.number,labels=lbl.rank,ax=ax,las=2)
+      nemenyi.axis(1,lay,ax,at=1:cols.number,labels=lbl.rank,las=2)
+      if (group){
+        nemenyi.axis(3,lay,ax,at=1:cols.number,labels=ranks.cld,las=1,tick=FALSE)
+      }
       if (!is.null(select)){
         graphics::points(select,0,pch=20,col=col.best,cex=2)
       }
@@ -450,18 +498,21 @@ nemenyi <- function(data, conf.level=0.95, sort=c(TRUE,FALSE),
           graphics::lines(c(0,i), rep(rline[i,2],times=2), col="gray", lty = 2)
         }
       }
-      nemenyi.axis(2,at=1:cols.number,labels=lbl.rank,ax=ax,las=2)
+      nemenyi.axis(2,lay,ax,at=1:cols.number,labels=lbl.rank,las=2)
+      if (group){
+        nemenyi.axis(4,lay,ax,at=1:cols.number,labels=ranks.cld,las=2,tick=FALSE)
+      }
       if (!is.null(select)){
         graphics::points(0,select,pch=20,col=col.best,cex=2)
       }
     }
-    nemenyi.titles(xlab,ylab,mm$title.line,ax)
+    nemenyi.titles(xlab,ylab,main,lay,ax)
 
   }
 
   return(structure(list("means"=ranks.means,"intervals"=ranks.intervals,"fpval"=fried.pval,"fH"=fried.H,
                         "cd"=r.stat,"conf.level"=conf.level,"k"=cols.number,"n"=rows.number,
-                        "cld"=ranks.cld,"diff"=ranks.diff),class="nemenyi"))
+                        "group"=ranks.cld,"diff"=ranks.diff),class="nemenyi"))
 
 }
 
@@ -501,6 +552,35 @@ nemenyi.cld <- function(means, cd){
   return(res)
 }
 
+# Lines of plot annotation. Accepts a named (in any order, partial names allowed)
+# or unnamed (in the default order) vector or list. Missing elements are NA (automatic)
+nemenyi.line <- function(line){
+  nms <- c("main","xlab","ylab","xaxis","yaxis","group")
+  out <- stats::setNames(rep(NA_real_,length(nms)),nms)
+  if (is.null(line)){
+    return(out)
+  }
+  line <- unlist(line)
+  if (length(line) > length(nms)){
+    stop(paste0("Argument line can have up to ", length(nms), " elements: ", paste(nms,collapse=", "), "."))
+  }
+  nm <- names(line)
+  if (is.null(nm) || all(nm == "")){
+    out[seq_along(line)] <- as.numeric(line)
+  } else {
+    if (any(nm == "")){
+      stop("Elements of argument line must be either all named or all unnamed.")
+    }
+    idx <- pmatch(nm, nms)
+    if (any(is.na(idx))){
+      stop(paste0("Unknown element(s) in argument line: ", paste(nm[is.na(idx)],collapse=", "),
+                  ". Use: ", paste(nms,collapse=", "), "."))
+    }
+    out[idx] <- as.numeric(line)
+  }
+  out
+}
+
 # Axis annotation settings, arguments passed by the user take precedence over par()
 nemenyi.axpar <- function(args){
   getp <- function(nm){
@@ -512,6 +592,7 @@ nemenyi.axpar <- function(args){
   }
   list(cex.axis=getp("cex.axis"), font.axis=getp("font.axis"), col.axis=getp("col.axis"),
        cex.lab=getp("cex.lab"), font.lab=getp("font.lab"), col.lab=getp("col.lab"),
+       cex.main=getp("cex.main"), font.main=getp("font.main"), col.main=getp("col.main"),
        mgp=getp("mgp"), family=getp("family"))
 }
 
@@ -522,37 +603,102 @@ nemenyi.textlines <- function(txt, ax){
   w / (graphics::par("csi")*graphics::par("mex"))
 }
 
-# Enlarge margins that cannot fit axis labels (and axis title outside them)
-# Other margins are kept as set by the user
-nemenyi.margins <- function(mar, sides, txt, titles, ax){
-  title.line <- rep(NA,4)
-  for (s in seq_along(sides)){
-    side <- sides[s]
-    need <- ax$mgp[2] + nemenyi.textlines(txt[[s]],ax) + 0.3
-    if (nzchar(titles[[s]])){
-      title.line[side] <- need
-      need <- need + ax$cex.lab + 0.3
+# Is there a title to draw, and how many lines does it span
+nemenyi.nlines <- function(txt){
+  if (is.null(txt)){
+    0
+  } else if (is.character(txt)){
+    length(unlist(strsplit(txt[nzchar(txt)],"\n")))
+  } else {
+    1
+  }
+}
+
+# Resolve the margin line of each annotation element and enlarge the margins
+# that cannot fit them. Other margins are kept as set by the user.
+#   xtxt, ytxt: treatment labels drawn perpendicular on sides 1 and 2, NULL for numerical axes
+#   gtxt, gside: group letters and the side they are drawn on (3 parallel, 4 perpendicular)
+nemenyi.layout <- function(mar, line, ax, xlab, ylab, main,
+                           xtxt=NULL, ytxt=NULL, gtxt=NULL, gside=4){
+  pos <- line
+  # Axis labels and letters default to the usual axis label line
+  for (nm in c("xaxis","yaxis","group")){
+    if (is.na(pos[nm])){
+      pos[nm] <- ax$mgp[2]
     }
-    mar[side] <- max(mar[side], need)
   }
-  list(mar=mar, title.line=title.line)
+
+  # Sides 1 and 2: axis labels, and axis title outside them
+  sides <- list(list(side=1, axis="xaxis", lab="xlab", txt=xtxt, title=xlab),
+                list(side=2, axis="yaxis", lab="ylab", txt=ytxt, title=ylab))
+  for (s in sides){
+    if (!is.null(s$txt)){
+      # Treatment labels, perpendicular to the axis
+      need <- pos[[s$axis]] + nemenyi.textlines(s$txt,ax) + 0.3
+      auto <- need
+      gap <- 0.3
+    } else {
+      # Numerical axis, keep the usual distance between labels and title
+      need <- pos[[s$axis]] + ax$cex.axis
+      auto <- pos[[s$axis]] + ax$mgp[1] - ax$mgp[2]
+      gap <- 0
+    }
+    if (nemenyi.nlines(s$title) > 0){
+      if (is.na(pos[s$lab])){
+        pos[s$lab] <- auto
+      }
+      need <- max(need, pos[[s$lab]] + ax$cex.lab + gap)
+    }
+    mar[s$side] <- max(mar[s$side], need)
+  }
+
+  # Group letters
+  top <- NA
+  if (!is.null(gtxt)){
+    if (gside == 3){
+      need <- pos[["group"]] + ax$cex.axis + 0.3
+      top <- need
+    } else {
+      need <- pos[["group"]] + nemenyi.textlines(gtxt,ax) + 0.3
+    }
+    mar[gside] <- max(mar[gside], need)
+  }
+
+  # Main title: above the letters if these are on top, otherwise default position
+  nmain <- nemenyi.nlines(main)
+  if (nmain > 0){
+    if (is.na(pos["main"])){
+      pos["main"] <- top
+    }
+    if (!is.na(pos["main"])){
+      mar[3] <- max(mar[3], pos[["main"]] + nmain*ax$cex.main + 0.3)
+    }
+  }
+
+  list(mar=mar, line=pos)
 }
 
-# Draw an axis with the user's annotation settings
-nemenyi.axis <- function(side, ax, ...){
+# Draw an axis with the user's annotation settings, at the resolved line
+nemenyi.axis <- function(side, lay, ax, ...){
+  pos <- lay$line[[c("xaxis","yaxis","group","group")[side]]]
   graphics::axis(side, cex.axis=ax$cex.axis, font.axis=ax$font.axis,
-                 col.axis=ax$col.axis, mgp=ax$mgp, family=ax$family, ...)
+                 col.axis=ax$col.axis, mgp=c(ax$mgp[1],pos,ax$mgp[3]), family=ax$family, ...)
 }
 
-# Draw axis titles, outside the labels when needed
-nemenyi.titles <- function(xlab, ylab, title.line, ax){
-  if (nzchar(xlab)){
-    graphics::title(xlab=xlab, line=title.line[1], cex.lab=ax$cex.lab,
+# Draw main and axis titles, at the resolved lines
+nemenyi.titles <- function(xlab, ylab, main, lay, ax){
+  pos <- lay$line
+  if (nemenyi.nlines(xlab) > 0){
+    graphics::title(xlab=xlab, line=pos[["xlab"]], cex.lab=ax$cex.lab,
                     font.lab=ax$font.lab, col.lab=ax$col.lab, mgp=ax$mgp, family=ax$family)
   }
-  if (nzchar(ylab)){
-    graphics::title(ylab=ylab, line=title.line[2], cex.lab=ax$cex.lab,
+  if (nemenyi.nlines(ylab) > 0){
+    graphics::title(ylab=ylab, line=pos[["ylab"]], cex.lab=ax$cex.lab,
                     font.lab=ax$font.lab, col.lab=ax$col.lab, mgp=ax$mgp, family=ax$family)
+  }
+  if (nemenyi.nlines(main) > 0){
+    graphics::title(main=main, line=pos[["main"]], cex.main=ax$cex.main,
+                    font.main=ax$font.main, col.main=ax$col.main, family=ax$family)
   }
 }
 
@@ -571,9 +717,9 @@ print.nemenyi <- function(x,...){
   writeLines(paste0("Number of observations is ", x$n, " and number of methods is ", x$k))
   writeLines(paste0("Friedman test p-value: ", format(round(x$fpval,4),nsmall=4) , " - ", x$fH))
   writeLines(paste0("Critical distance: ", format(round(x$cd,4),nsmall=4)))
-  if (!is.null(x$cld)){
+  if (!is.null(x$group)){
     writeLines("")
-    out <- data.frame("Mean rank"=format(round(x$means,4),nsmall=4), "Group"=x$cld, check.names=FALSE)
+    out <- data.frame("Mean rank"=format(round(x$means,4),nsmall=4), "Group"=x$group, check.names=FALSE)
     rownames(out) <- names(x$means)
     print(out)
   }

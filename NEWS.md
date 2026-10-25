@@ -5,7 +5,7 @@
 - Nemenyi: Respects previous graphical settings, and better adjustment of plotting area to fit labels
 - Nemenyi: Fixed a few typos in the help file and added some more error trapping.
 - Sthief: Improved input handling and allow to skip levels of the hierarchy. 
-- plotSThief: This is now depreciated and Will be removed in following versions of the package. Use the new plotThief instead.
+- plotSThief: This is now depreciated and will be removed in following versions of the package. Use the new plotThief instead.
 - New: plotS: General function to plot hierarchies from an S-matrix. Calls plotSblock and plotStree.
 - New: plotSblock: New function to plot hierarchies using the block representation. 
 - New: plotStree: New function to plot hierarchies using the typical tree representation
