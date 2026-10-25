@@ -59,6 +59,10 @@ The **tsutils** package provides functions to support various aspects of time se
 #### Time series data:
 * `referrals`: A&E monthly referrals.
 
+#### Evaluation
+* nemenyi : column-wise Friedman and Nemenyi post-hoc testing.
+* nemenyi.sens : sensitivity of the Nemenyi test to the confidence level.
+
 ## Authors & contributors
 
 * Nikolaos Kourentzes - (http://nikolaos.kourentzes.com/)
