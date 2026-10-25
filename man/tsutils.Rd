@@ -38,6 +38,7 @@ The \pkg{tsutils} package provides functions to support various aspects of time 
 \item \code{\link{plotSblock}}: plot an S-matrix using the block representation.
 \item \code{\link{plotStree}}: plot an S-matrix using the standard tree representation.
 \item \code{\link{plotThief}}: plot temporal hierarchy S matrix. Calls \code{\link{plotS}} and handles temporal names automatically.
+\item \code{\link{Saugment}}: augment an incoherent hierarchy with discrepancy series.
 }
 }
 

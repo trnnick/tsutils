@@ -12,6 +12,7 @@
 - New: plotSblock: New function to plot hierarchies using the block representation. 
 - New: plotStree: New function to plot hierarchies using the typical tree representation
 - New: plotThief: Replaces plotSThief, relies on the other new functions. 
+- New: Saugment: Augment an incoherent hierarchy with discrepancy series.
 
 # VERSION 0.9.4 (12 Nov 2023)
 - Fix for seasplot graphs
