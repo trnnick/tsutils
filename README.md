@@ -13,8 +13,8 @@ Stable version can be found at: https://cran.r-project.org/package=tsutils
 
 To install the development version use:
 ```{r}
-if (!require("devtools")){install.packages("devtools")}
-devtools::install_github("trnnick/tsutils")
+if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
+remotes::install_github("trnnick/tsutils")
 ```
 Otherwise, install the stable version from CRAN:
 ```{r}
@@ -39,12 +39,14 @@ The **tsutils** package provides functions to support various aspects of time se
 * `theta`: Theta method.
 
 #### Hierarchical time series:
-* `Sthief`: temporal hierarchy S matrix.
 * `plotS`: Generic function to plot hierarchies (S matrix).
 * `plotSblock`: Function to plot S-matrices with block representation.
 * `plotStree`: Function to plot S-matrices with tree representation.
 * `plotThief`: Function to plot temporal hierarchies.
 * `Saugment`: Augment hierarchy with discrepancy series.
+* `Smean`: Mean (equal or unequal weights) aggregation S matrix.
+* `Sgroup`: S matrix from dimensions.
+* `Sthief`: temporal hierarchy S matrix.
 
 #### Forecasting process modelling:
 * `abc`: ABC analysis.
@@ -64,6 +66,7 @@ The **tsutils** package provides functions to support various aspects of time se
 
 #### Time series data:
 * `referrals`: A&E monthly referrals.
+* `gdpchain`: Hierarchy of US real GDP in chained dollars.
 
 ## Authors & contributors
 

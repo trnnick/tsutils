@@ -27,13 +27,15 @@
 #'
 #' @section Hierarchical time series:
 #' \itemize{
-#' \item \code{\link{Sthief}}: temporal hierarchy S matrix.
 #' \item \code{\link{plotSthief}}: plot temporal hierarchy S matrix. Obsolete, replaced by \code{\link{plotThief}}.
 #' \item \code{\link{plotS}}: general plotting function for S-matrices. Calls \code{\link{plotSblock}} or \code{\link{plotStree}}.
 #' \item \code{\link{plotSblock}}: plot an S-matrix using the block representation.
 #' \item \code{\link{plotStree}}: plot an S-matrix using the standard tree representation.
 #' \item \code{\link{plotThief}}: plot temporal hierarchy S matrix. Calls \code{\link{plotS}} and handles temporal names automatically.
 #' \item \code{\link{Saugment}}: augment an incoherent hierarchy with discrepancy series.
+#' \item \code{\link{Sgroup}}: S matrix from dimensions.
+#' \item \code{\link{Smean}}: Mean (equal or unequal weights) aggregation S matrix.
+#' \item \code{\link{Sthief}}: temporal hierarchy S matrix.
 #' }
 #'
 #' @section Forecasting process modelling:
@@ -54,6 +56,7 @@
 #' @section Time series data:
 #' \itemize{
 #' \item \code{\link{referrals}}: A&E monthly referrals.
+#' \item \code{\link{gdpchain}}: Hierarchy of US real GDP in chained dollars.
 #' }
 #'
 #' @name tsutils
@@ -63,7 +66,7 @@
 #' @importFrom forecast ets forecast.ets Arima forecast
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom grDevices colorRampPalette gray rgb rainbow dev.cur dev.new
-#' @importFrom utils tail head
+#' @importFrom utils tail head combn
 #' @importFrom MAPA tsaggr
 #'
 NULL

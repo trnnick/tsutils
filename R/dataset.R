@@ -7,3 +7,67 @@
 #' @references \url{https://www.england.nhs.uk/statistics/statistical-work-areas/ae-waiting-times-and-activity/}
 #' @keywords data
 NULL
+
+#' Hierarchy of US real GDP in chained dollars
+#'
+#' Quarterly US real gross domestic product and its expenditure components in chained 2017 dollars, forming a hierarchy that is not coherent: chain-linked volumes are not additive, so each aggregate differs from the sum of its components.
+#'
+#' @name gdpchain
+#' @docType data
+#'
+#' @format A list with:
+#' \itemize{
+#' \item \code{y}: quarterly \code{ts} matrix of 26 series from 2007Q1 to 2026Q2 (78 quarters), in billions of chained 2017 dollars, seasonally adjusted annual rate. Columns are ordered as the rows of \code{S}.
+#' \item \code{S}: summing matrix (\eqn{26 \times 15}) of the expenditure-side hierarchy, following NIPA Table 1.1.6: 11 aggregates and 15 bottom level series. Imports enter net exports, and hence GDP, with \code{-1}.
+#' \item \code{levels}: level of each row of \code{S} in the hierarchy, for use with \code{\link{plotS}}.
+#' \item \code{codes}: FRED series code of each row of \code{S}.
+#' \item \code{titles}: FRED series title of each row of \code{S}.
+#' }
+#'
+#' @details
+#' The hierarchy is: GDP = PCE + GPDI + NetEx + Gov; personal consumption expenditures, PCE = Goods + Services, with Goods = Durable + Nondurable; gross private domestic investment, GPDI = FPI + CBI, with fixed investment FPI = PNFI + Residential and nonresidential PNFI = Structures + Equipment + IPP; net exports, NetEx = Exports - Imports, each split into goods and services; government, Gov = Federal + StateLocal, with Federal = Defense + Nondefense.
+#'
+#' Because of chain-linking, the observed series do not satisfy \code{y = B \%*\% t(S)}, with \code{B} the bottom level series. The discrepancy of GDP against the bottom level equals, up to rounding, the residual published by the Bureau of Economic Analysis (FRED code A960RX1Q020SBEA). Net exports are computed as exports minus imports, so their discrepancy is implied by those of exports and imports. Use \code{\link{Saugment}} to obtain a coherent augmented hierarchy. The data are rounded to three decimals.
+#'
+#' The data are the vintage of 30 September 2026. National accounts are revised, and comprehensive revisions change the reference year, so later vintages differ, including the discrepancies.
+#'
+#' @source Bureau of Economic Analysis, retrieved from FRED, Federal Reserve Bank of St. Louis, \url{https://fred.stlouisfed.org}.
+#'
+#' @references
+#' Kourentzes, N., et al. (in preparation). Forecast reconciliation under observational incoherence. Working paper.
+#'
+#' @seealso \code{\link{Saugment}}, \code{\link{plotS}}, \code{\link{Smean}}.
+#'
+#' @keywords data
+#'
+#' @examples
+#' S <- gdpchain$S
+#' y <- gdpchain$y
+#' cols <- RColorBrewer::brewer.pal(3,"Pastel1")
+#'
+#' # Hierarchy, highlighting the series that enter with -1 (imports)
+#' neg <- rownames(S) %in% colnames(S)[apply(S < 0,2,any)]
+#' plotS(S,levels=gdpchain$levels,fill=ifelse(neg,cols[1],"grey88"))
+#'
+#' # Produce plot similar to reference paper
+#' plotS(S,levels=gdpchain$levels,fill=ifelse(neg,cols[1],"grey88"),
+#'       view="block",skip="expand",vgap=0.1)
+#'
+#' # Augment with discrepancy series. The data are rounded to three decimals.
+#' aug <- Saugment(S,y,tol=0.01)
+#' aug$status
+#' aug$error
+#'
+#' # Augmented hierarchy, highlighting the discrepancy series. Discrepancies are
+#' # measured against the bottom level, so they are not nested, and the block
+#' # view is clearer than the tree.
+#' k <- ncol(aug$d)
+#' lev <- c(gdpchain$levels,rep(max(gdpchain$levels),k))
+#' neg <- rownames(aug$S) %in% colnames(aug$S)[apply(aug$S < 0,2,any)]
+#' fill <- ifelse(neg,cols[1],"grey88")
+#' fill[nrow(S)+(1:k)] <- cols[2]
+#' plotS(aug$S,levels=lev,fill=fill,view="block",skip="expand",vgap=0.1)
+#'
+#' # Discrepancy series: close to zero around the 2017 reference year
+#' plot(aug$d,main="")
+NULL

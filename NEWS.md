@@ -13,6 +13,9 @@
 - New: plotStree: New function to plot hierarchies using the typical tree representation
 - New: plotThief: Replaces plotSThief, relies on the other new functions. 
 - New: Saugment: Augment an incoherent hierarchy with discrepancy series.
+- New: Sgroup: S matrix from dimensions.
+- New: Smean: Mean (equal or unequal weights) aggregation S matrix.
+- New: gdpchain hierarchical dataset.
 
 # VERSION 0.9.4 (12 Nov 2023)
 - Fix for seasplot graphs
