@@ -9,6 +9,7 @@ Saugment(
   y,
   tol = sqrt(.Machine$double.eps) * max(abs(y)),
   nodes = NULL,
+  D = NULL,
   outplot = c(FALSE, TRUE),
   ...
 )
@@ -21,6 +22,8 @@ Saugment(
 \item{tol}{absolute tolerance that separates genuine discrepancies from rounding. Set this to the rounding precision of the data, e.g., \code{0.01} for data published with three decimals. The default is only suitable for data without rounding.}
 
 \item{nodes}{optional vector of names or row indices of aggregate nodes that must receive their own discrepancy series. See details.}
+
+\item{D}{optional matrix with the known structure of the discrepancies, which replaces their classification. Columns are named by the aggregate nodes that receive their own discrepancy series, and rows by aggregate nodes; each row gives the discrepancy of that node as a combination of the discrepancy series. Aggregate nodes not in the rows are coherent. See details.}
 
 \item{outplot}{if \code{TRUE}, then plot the augmented hierarchy using \code{\link{plotS}}, highlighting the discrepancy series.}
 
@@ -47,10 +50,14 @@ Bottom level series are identified as the rows of \code{S} that are unit vectors
 Aggregate nodes are processed from the smallest to the largest, in terms of the number of bottom level series they aggregate, and are classified as:
 \itemize{
 \item \code{"coherent"}: the discrepancy is within \code{tol} of zero.
-\item \code{"implied"}: the discrepancy is, within \code{tol}, a linear combination of the discrepancies of nodes that already have their own discrepancy series. For example, net exports defined as exports minus imports. The coefficients of the combination are stored in the corresponding row of \code{D}. Coefficients within \code{1e-3} of an integer are rounded to that integer.
+\item \code{"implied"}: the node is a linear combination of nodes that already have their own discrepancy series, both in \code{S} and, within \code{tol}, in its discrepancy. For example, net exports defined as exports minus imports. The coefficients are taken from \code{S} and stored in the corresponding row of \code{D}.
 \item \code{"own"}: the node receives its own discrepancy series.
 }
 When discrepancies are linearly dependent, which nodes receive their own discrepancy series is not unique. Use \code{nodes} to choose them.
+
+Implied discrepancies must follow from the structure of the hierarchy: the coefficients are obtained from the rows of \code{S}, and the data are only used to check that the discrepancy follows them. Estimating the coefficients from the data instead is not reliable when the discrepancy series have few observations or smooth histories, e.g., in temporal hierarchies where each observation is a complete seasonal cycle, as a few discrepancy series can then reproduce any other one exactly with arbitrary coefficients.
+
+When the structure of the discrepancies is known, it can be given with \code{D}, and no classification is done. The function checks that the discrepancies agree with \code{D} within \code{tol}.
 }
 \examples{
 # Small hierarchy: Total = A + B, A = A1 + A2, B = B1 + B2
@@ -87,6 +94,27 @@ Saugment(S,y)$status
 aug <- Saugment(S,y,nodes="Total")
 aug$status
 aug$D
+
+# Short sample: a temporal hierarchy of a seasonal series together with its
+# seasonally adjusted version, with only 5 years of data. The discrepancies of the
+# adjusted aggregates are sums of those of the adjusted months, following S.
+y <- ts(100 + 10*sin(2*pi*(1:60)/12) + rnorm(60),frequency=12)
+s <- stl(y,s.window=7)$time.series[,"seasonal"]
+Sn <- Sthief(y)
+rownames(Sn) <- paste0("n",1:nrow(Sn))
+S2 <- rbind(Sn,Sn)
+rownames(S2) <- c(paste0("NSA.",rownames(Sn)),paste0("SA.",rownames(Sn)))
+stack <- function(x){matrix(x,ncol=12,byrow=TRUE) \%*\% t(Sn)}
+Y <- cbind(stack(y),stack(y-s))
+colnames(Y) <- rownames(S2)
+aug <- Saugment(S2,Y)
+table(aug$status)
+
+# The same structure given explicitly with D
+D <- Sn
+dimnames(D) <- list(paste0("SA.",rownames(Sn)),paste0("SA.n",17:28))
+aug <- Saugment(S2,Y,D=D)
+table(aug$status)
 
 }
 \seealso{
