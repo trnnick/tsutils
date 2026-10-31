@@ -14,14 +14,15 @@ theta(
   cost0 = c("MSE", "MdSE", "MAE", "MdAE"),
   cost2 = c("MSE", "MdSE", "MAE", "MdAE"),
   costs = c("MSE", "MdSE", "MAE", "MdAE"),
-  multiplicative = c("multiplicative", "additive", "auto"),
+  season = c("multiplicative", "additive", "auto"),
   cma = NULL,
-  outliers = NULL
+  outliers = NULL,
+  multiplicative = NULL
 )
 
 \method{forecast}{theta}(object, h = NULL, ...)
 
-\method{plot}{theta}(x, thetalines = c(TRUE, FALSE), ...)
+\method{plot}{theta}(x, thetalines = c(TRUE, FALSE), h = 0, legend = TRUE, ...)
 
 theta.thief(y, h = NULL, ...)
 }
@@ -44,11 +45,13 @@ theta.thief(y, h = NULL, ...)
 
 \item{costs}{cost function of seasonal element. Same options as \code{cost0}.}
 
-\item{multiplicative}{type of seasonal decomposition. This can be \code{"multiplicative"}, \code{"additive"} or \code{"auto"}. If \code{y} contains non-positive values then this is forced to \code{"additive"}.}
+\item{season}{type of seasonal decomposition. This can be \code{"multiplicative"}, \code{"additive"} or \code{"auto"}. If \code{y} contains non-positive values then this is forced to \code{"additive"}. With \code{"auto"} the type is chosen with \code{\link{mseastest}}. Whether seasonality is present at all is always tested (see details).}
 
 \item{cma}{input precalculated level/trend for the analysis. Use \code{NULL} to estimate internally.}
 
 \item{outliers}{provide vector of location of observations that are considered outliers (see \code{\link{residout}}). These will be considered in the estimation of theta0. For no outliers use \code{NULL}.}
+
+\item{multiplicative}{deprecated, use \code{season} instead. Accepts the same values as \code{season}. It is kept for backwards compatibility, gives a warning when used, and will be removed in a future version.}
 
 \item{object}{object of class \code{theta}.}
 
@@ -59,6 +62,8 @@ theta.thief(y, h = NULL, ...)
 \item{x}{object of class \code{theta}.}
 
 \item{thetalines}{if \code{TRUE}, then theta lines are included in the plot.}
+
+\item{legend}{if \code{TRUE} a legend is added to the plot. Use \code{FALSE} to omit it, or a keyword such as \code{"bottomleft"} to change its position.}
 }
 \value{
 An object of class \code{theta}, containing:
@@ -80,6 +85,7 @@ An object of class \code{theta}, containing:
 \item \code{"fitted"}: fitted values.
 \item \code{"residuals"}: in-sample residuals.
 \item \code{"MSE"}: in-sample Mean Squared Error.
+\item \code{"outliers"}: location of outliers provided in \code{outliers}.
 }
 }
 \description{
@@ -91,6 +97,10 @@ Produce a plot of the fitted Theta method.
 }
 \details{
 This implementation of the Theta method tests automatically for seasonality and trend. Seasonal decomposition can be done either additively or multiplicatively and the seasonality is treated as a pure seasonal model. The various Theta components can be optimised using different cost functions. The originally proposed Theta method always assumed multiplicative seasonality and presence of trend, while all theta lines were optimised using MSE and seasonality was estimated using classical decomposition.
+
+The argument \code{season} replaces the argument \code{multiplicative} of earlier versions. Calls that use \code{multiplicative} still work, but give a deprecation warning. The output element \code{multiplicative} is unchanged.
+
+For \code{plot.theta}, if \code{h > 0} the forecasts are added to the plot, together with the forecasts of the theta lines if \code{thetalines=TRUE}. Outliers provided in \code{outliers} are marked on the data. Arguments in \code{...} control the plot: \code{col} sets the colours of the data, the fit and forecast, theta0, theta2 and the outliers, in this order (recycled as needed); \code{lwd} and \code{lty} the lines; everything else, such as \code{main}, \code{xlab}, \code{ylab}, \code{xlim} or \code{ylim}, is passed to \code{plot}. The default colours are from the \code{Set1} palette of \code{\link[RColorBrewer]{brewer.pal}}.
 }
 \section{Functions}{
 \itemize{
@@ -102,6 +112,9 @@ fit <- theta(referrals)
 plot(fit)
 
 forecast.theta(fit,h=12) # Or simply use forecast(fit)
+
+plot(fit,h=24)
+plot(fit,thetalines=FALSE,h=12,main="Referrals",legend="bottomright")
 
 \dontrun{
 library(thief)

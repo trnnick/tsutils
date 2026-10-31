@@ -8,6 +8,7 @@
 - plotSThief: This is now depreciated and will be removed in following versions of the package. Use the new plotThief instead.
 - seasplot: Separated seasonal testing into new function seastest and improved plotting.
 - decomp: New argument seastest to remove seasonality only when seastest finds evidence of it, and plotting improvements.
+- theta: Replaced multiplicative argument with season. multiplicative still works, but will be depreciated. Improved plotting.
 - New: nemenyi.sens: Run a sensitivity analysis on nemenyi testing results for a range of p-values.
 - New: colour.blend: Emulate alpha-transparency colours for EPS export compatible plots.
 - New: plotS: General function to plot hierarchies from an S-matrix. Calls plotSblock and plotStree.
@@ -18,7 +19,7 @@
 - New: Sgroup: S matrix from dimensions.
 - New: Smean: Mean (equal or unequal weights) aggregation S matrix.
 - New: gdpchain: hierarchical dataset of US GDP in chained dollars.
-. New: seastest: seasonal test based on the Friedman test. Before was part of seasplot. 
+- New: seastest: seasonal test based on the Friedman test. Before was part of seasplot. 
 
 # VERSION 0.9.4 (12 Nov 2023)
 - Fix for seasplot graphs

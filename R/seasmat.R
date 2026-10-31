@@ -96,6 +96,10 @@ seasmat <- function(y,m=NULL,s=NULL,trend=NULL,alpha=0.05,
 
   # Remove trend
   if (isTRUE(trend)){
+    if (decomposition == "auto" && m == 1){
+      # No seasonality to test the type of
+      decomposition <- "additive"
+    }
     if (decomposition == "auto"){
       # mseastest needs a few seasons, fall back to additive if it cannot be run
       is.mult <- tryCatch(mseastest(y,m,cma=cma)$is.multiplicative,
