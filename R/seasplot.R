@@ -25,7 +25,7 @@
 #' \item \code{5}: seasonal density.
 #' }
 #' @param decomposition type of seasonal decomposition. This can be \code{"multiplicative"}, \code{"additive"} or \code{"auto"}. If \code{y} contains non-positive values then this is forced to \code{"additive"}.
-#' @param cma input precalculated level/trend for the analysis. This overrides \code{trend=NULL}.
+#' @param cma input precalculated level/trend for the analysis. If \code{trend=TRUE} it is removed from \code{y} without testing, otherwise the presence of trend is tested on \code{cma} (overriding \code{trend=FALSE}).
 #' @param labels external labels for the seasonal periods. Use \code{NULL} for none. If \code{length(labels) < m}, then this input is ignored.
 #' @param legend if \code{TRUE} a legend is added to the plot, where applicable (\code{outplot=1} and \code{4}). Use \code{FALSE} to omit it, or a keyword such as \code{"topright"} to change its position.
 #' @param ... additional arguments passed to plotting functions. Arguments that refer to the plotted data, \code{col}, \code{lwd}, \code{lty}, \code{pch}, \code{cex}, \code{bg} and \code{type}, are applied to the seasonal lines, boxes or points (\code{col} acts as \code{colour}). Axis arguments (\code{las}, \code{cex.axis}, \code{col.axis}, \code{font.axis}, \code{tck}, \code{tcl}, \code{mgp}) are also applied to the seasonal period axis. Everything else, such as \code{main}, \code{xlab}, \code{ylab}, \code{xlim}, \code{ylim}, \code{xaxt="n"} or \code{axes=FALSE}, is passed to the function that sets up the plot (\code{plot}, \code{boxplot} or \code{image}).

@@ -13,7 +13,10 @@ decomp(
   decomposition = c("multiplicative", "additive", "auto"),
   h = 0,
   type = c("mean", "median", "pure.seasonal"),
-  w = NULL
+  w = NULL,
+  seastest = c(FALSE, TRUE),
+  alpha = 0.05,
+  ...
 )
 }
 \arguments{
@@ -39,6 +42,20 @@ decomp(
 }}
 
 \item{w}{percentage or number of observations to winsorise in the calculation of mean seasonal indices. If w>1 then it is the number of observations, otherwise it is a percentage. If \code{type != "mean"} then this is ignored.}
+
+\item{seastest}{if \code{TRUE}, then the detrended series is tested for seasonality with \code{\link{seastest}} and the seasonal component is only estimated if there is evidence of seasonality. Otherwise, the seasonal component is constant (1 for multiplicative and 0 for additive decomposition). If \code{FALSE} the seasonal component is always estimated.}
+
+\item{alpha}{significance level for the seasonality test. Used only if \code{seastest=TRUE}.}
+
+\item{...}{additional arguments to control the plot:
+\itemize{
+\item \code{main}: title of the plot.
+\item \code{xlab}: label of the time axis.
+\item \code{ylab}: labels of the four panels.
+\item \code{col}: colours of the data and components, the reconstructed series, and the seasonal forecast, recycled as needed.
+\item \code{lwd}: line width.
+\item \code{las}, \code{cex.axis}, \code{cex.lab}: axis label orientation, size of axis annotation and of panel labels.
+}}
 }
 \value{
 A list containing:
@@ -48,17 +65,24 @@ A list containing:
 \item \code{irregular}: irregular component.
 \item \code{f.season}: forecasted seasonal component if \code{h>0}.
 \item \code{g}: pure seasonal model parameters.
+\item \code{decomposition}: type of decomposition used.
+\item \code{season.exist}: \code{TRUE}/\code{FALSE} result of the seasonality test, or \code{NULL} if not tested.
+\item \code{season.pval}: p-value of the seasonality test, or \code{NULL} if not tested.
 }
 }
 \description{
-Perform classical time series decomposition.
+Perform classical time series decomposition. Optionally, the seasonal component is only estimated when there is evidence of seasonality.
 }
 \examples{
 decomp(referrals)
+decomp(referrals,outplot=TRUE,h=12,seastest=TRUE)
 
 }
 \references{
 Ord K., Fildes R., Kourentzes N. (2017) \href{https://kourentzes.com/forecasting/2017/10/16/new-forecasting-book-principles-of-business-forecasting-2e/}{Principles of Business Forecasting, 2e}. \emph{Wessex Press Publishing Co.}, p.106-111.
+}
+\seealso{
+\code{\link{seastest}}, \code{\link{seasplot}}, \code{\link{cmav}}.
 }
 \author{
 Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

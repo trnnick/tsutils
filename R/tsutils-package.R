@@ -62,7 +62,7 @@
 #'
 #' @name tsutils
 #'
-#' @importFrom graphics plot lines par points polygon axis image abline box text boxplot legend mtext rect segments strwidth strheight plot.new plot.window title
+#' @importFrom graphics plot lines par points polygon axis image abline box text boxplot legend mtext rect segments strwidth strheight plot.new plot.window title axTicks layout
 #' @importFrom stats frequency friedman.test qtukey na.exclude sd ts pbinom median density quantile start cor.test deltat end optim time tsp ave complete.cases
 #' @importFrom forecast ets forecast.ets Arima forecast
 #' @importFrom RColorBrewer brewer.pal

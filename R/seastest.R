@@ -8,7 +8,7 @@
 #' @param trend if \code{TRUE}, then presence of trend is assumed and removed. If \code{FALSE} no trend is assumed. Use \code{NULL} to identify automatically.
 #' @param alpha significance level for statistical tests.
 #' @param decomposition type of seasonal decomposition. This can be \code{"multiplicative"}, \code{"additive"} or \code{"auto"}. If \code{y} contains non-positive values then this is forced to \code{"additive"}.
-#' @param cma input precalculated level/trend for the analysis. This overrides \code{trend=NULL}.
+#' @param cma input precalculated level/trend for the analysis. If \code{trend=TRUE} it is removed from \code{y} without testing, otherwise the presence of trend is tested on \code{cma} (overriding \code{trend=FALSE}).
 #'
 #' @details
 #' The series is first detrended (if needed) using a centred moving average (see \code{\link{cmav}}), with the presence of trend tested using the Cox-Stuart test (see \code{\link{coxstuart}}) when \code{trend=NULL}. The detrended series is then arranged in a matrix, with one row per season and one column per seasonal period, and the Friedman test is used to test whether the seasonal periods come from the same distribution. Only complete seasons are used for the test, so at least two complete seasons are needed.

@@ -66,9 +66,11 @@ seasmat <- function(y,m=NULL,s=NULL,trend=NULL,alpha=0.05,
     decomposition <- "additive"
   }
 
-  # Override trend if cma is given
+  # If cma is given, it is removed without testing when trend=TRUE, otherwise the trend is tested on it
   if (!is.null(cma)){
-    trend <- NULL
+    if (!isTRUE(trend)){
+      trend <- NULL
+    }
     if (n != length(cma)){
       stop("Length of series and cma do not match.")
     }

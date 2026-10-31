@@ -27,7 +27,7 @@ seastest(
 
 \item{decomposition}{type of seasonal decomposition. This can be \code{"multiplicative"}, \code{"additive"} or \code{"auto"}. If \code{y} contains non-positive values then this is forced to \code{"additive"}.}
 
-\item{cma}{input precalculated level/trend for the analysis. This overrides \code{trend=NULL}.}
+\item{cma}{input precalculated level/trend for the analysis. If \code{trend=TRUE} it is removed from \code{y} without testing, otherwise the presence of trend is tested on \code{cma} (overriding \code{trend=FALSE}).}
 }
 \value{
 An object of class \code{seastest} containing:

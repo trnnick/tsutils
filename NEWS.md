@@ -7,6 +7,7 @@
 - Sthief: Improved input handling and allow to skip levels of the hierarchy. 
 - plotSThief: This is now depreciated and will be removed in following versions of the package. Use the new plotThief instead.
 - seasplot: Separated seasonal testing into new function seastest and improved plotting.
+- decomp: New argument seastest to remove seasonality only when seastest finds evidence of it, and plotting improvements.
 - New: nemenyi.sens: Run a sensitivity analysis on nemenyi testing results for a range of p-values.
 - New: colour.blend: Emulate alpha-transparency colours for EPS export compatible plots.
 - New: plotS: General function to plot hierarchies from an S-matrix. Calls plotSblock and plotStree.

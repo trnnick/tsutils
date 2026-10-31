@@ -1,6 +1,6 @@
 #' Classical time series decomposition
 #'
-#' Perform classical time series decomposition.
+#' Perform classical time series decomposition. Optionally, the seasonal component is only estimated when there is evidence of seasonality.
 #'
 #' @param y input time series. Can be \code{ts} object.
 #' @param m seasonal period. If \code{y} is a \code{ts} object then the default is its frequency.
@@ -16,6 +16,17 @@
 #' \item \code{"pure.seasonal"}: estimate using a pure seasonal model.
 #' }
 #' @param w percentage or number of observations to winsorise in the calculation of mean seasonal indices. If w>1 then it is the number of observations, otherwise it is a percentage. If \code{type != "mean"} then this is ignored.
+#' @param seastest if \code{TRUE}, then the detrended series is tested for seasonality with \code{\link{seastest}} and the seasonal component is only estimated if there is evidence of seasonality. Otherwise, the seasonal component is constant (1 for multiplicative and 0 for additive decomposition). If \code{FALSE} the seasonal component is always estimated.
+#' @param alpha significance level for the seasonality test. Used only if \code{seastest=TRUE}.
+#' @param ... additional arguments to control the plot:
+#' \itemize{
+#' \item \code{main}: title of the plot.
+#' \item \code{xlab}: label of the time axis.
+#' \item \code{ylab}: labels of the four panels.
+#' \item \code{col}: colours of the data and components, the reconstructed series, and the seasonal forecast, recycled as needed.
+#' \item \code{lwd}: line width.
+#' \item \code{las}, \code{cex.axis}, \code{cex.lab}: axis label orientation, size of axis annotation and of panel labels.
+#' }
 #'
 #' @return A list containing:
 #' \itemize{
@@ -24,6 +35,9 @@
 #' \item \code{irregular}: irregular component.
 #' \item \code{f.season}: forecasted seasonal component if \code{h>0}.
 #' \item \code{g}: pure seasonal model parameters.
+#' \item \code{decomposition}: type of decomposition used.
+#' \item \code{season.exist}: \code{TRUE}/\code{FALSE} result of the seasonality test, or \code{NULL} if not tested.
+#' \item \code{season.pval}: p-value of the seasonality test, or \code{NULL} if not tested.
 #' }
 #'
 #' @references
@@ -31,142 +45,93 @@
 #'
 #' @author Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.
 #'
+#' @seealso \code{\link{seastest}}, \code{\link{seasplot}}, \code{\link{cmav}}.
+#'
 #' @keywords ts
 #'
 #' @examples
 #' decomp(referrals)
+#' decomp(referrals,outplot=TRUE,h=12,seastest=TRUE)
 #'
 #' @export decomp
 
 decomp <- function(y,m=NULL,s=NULL,trend=NULL,outplot=c(FALSE,TRUE),
                    decomposition=c("multiplicative","additive","auto"),
-                   h=0,type=c("mean","median","pure.seasonal"),w=NULL)
+                   h=0,type=c("mean","median","pure.seasonal"),w=NULL,
+                   seastest=c(FALSE,TRUE),alpha=0.05,...)
 {
 
   # Defaults
-  outplot <- outplot[1]
+  outplot <- isTRUE(as.logical(outplot[1]))
   decomposition <- match.arg(decomposition,c("multiplicative","additive","auto"))
   type <- match.arg(type,c("mean","median","pure.seasonal"))
 
-  # Get m (seasonality)
-  if (is.null(m)){
-    if (any(class(y) == "ts")){
-      m <- frequency(y)
-    } else {
-      stop("Seasonality not defined (y not ts object).")
-    }
-  }
-
-  # Get starting period in seasonality if available
-  if (is.null(s)){
-    if (any(class(y) == "ts")){
-      s <- start(y)
-      s <- s[2]
-    } else {
-      s <- 1
-    }
-  }
-
   n <- length(y)
-
-  if (min(y)<=0){
-    decomposition <- "additive"
+  if (!is.null(trend) && n != length(trend)){
+    stop("Length of series and trend input do not match.")
   }
 
-  # If trend is not given then calculate CMA
-  if (is.null(trend)){
-    trend <- cmav(y=y,ma=m,fill=TRUE,outplot=FALSE,fast=TRUE)
-  } else {
-    if (n != length(trend)){
-      stop("Length of series and trend input do not match.")
-    }
-  }
+  # Detrend and organise in seasonal matrix
+  sm <- seasmat(y=y,m=m,s=s,trend=TRUE,decomposition=decomposition,cma=trend)
+  ynt <- sm$season
+  m <- sm$m
+  s <- sm$s
+  trend <- sm$trend
+  decomposition <- sm$decomposition
+  colnames(ynt) <- paste0("p",1:m)
+  ns <- nrow(ynt)
+  ks <- s - 1
+  ke <- ns*m - n - ks
 
-  if (decomposition == "auto"){
-    if (mseastest(y,m)$is.multiplicative){
-      decomposition <- "multiplicative"
+  # Test for seasonality
+  season.exist <- season.pval <- NULL
+  if (isTRUE(seastest)){
+    test <- seasfriedman(ynt,alpha=alpha)
+    if (is.na(test$pvalue)){
+      warning("Seasonality could not be tested (at least two complete seasons and m > 1 are needed). The seasonal component is estimated.")
     } else {
-      decomposition <- "additive"
+      season.exist <- test$is.seasonal
+      season.pval <- test$pvalue
     }
   }
 
-  if (decomposition == "multiplicative"){
-    ynt <- y/trend
-  } else {
-    ynt <- y - trend
-  }
-
-  if (outplot != FALSE){
-    yminmax.s <- range(ynt)
-    yminmax.s <- yminmax.s + 0.04*c(-1,1)*diff(yminmax.s)
-    yminmax.y <- range(y)
-    yminmax.y <- yminmax.y + 0.04*c(-1,1)*diff(yminmax.y)
-  }
-
-  # Fill with NA start and end of season
-  k <- m - (n %% m)
-  ks <- s-1
-  ke <- m - ((n+ks) %% m)
-  ynt <- c(rep(NA,times=ks),as.vector(ynt),rep(NA,times=ke))
-  ns <- length(ynt)/m
-  ynt <- matrix(ynt,nrow=ns,ncol=m,byrow=TRUE)
-  colnames(ynt) <- paste("p",1:m,sep="")
-  rownames(ynt) <- paste("s",1:ns,sep="")
-
-  # If h>0 then produce forecasts of seasonality
+  # Estimate seasonal component
   g <- NULL
-  if (type=="mean"){
-    # Calculate the seasonality as the overall mean
-    if (!is.null(w)){
-      ynt <- colWins(ynt,w)
-    }
-    season <- colMeans(ynt, na.rm=TRUE)
-    if (h>0){
-      f.season <- rep(season,h+m*2)
-      f.season <- as.vector(f.season[(m-ke+1):(m-ke+h)])
+  if (isFALSE(season.exist) || type != "pure.seasonal"){
+    if (isFALSE(season.exist)){
+      # No evidence of seasonality, seasonal component is neutral
+      season <- rep(if (decomposition == "multiplicative") 1 else 0, m)
+    } else if (type == "mean"){
+      # Calculate the seasonality as the overall mean
+      if (!is.null(w)){
+        ynt <- colWins(ynt,w)
+      }
+      season <- colMeans(ynt,na.rm=TRUE)
     } else {
-      f.season <- NULL
+      # Calculate the seasonality as the overall median
+      season <- unname(apply(ynt,2,median,na.rm=TRUE))
     }
-    i.season <- rep(season,ns)
-    i.season <- i.season[(ks+1):(ns*m-ke)]+y*0
-  }
-  if (type=="median"){
-    # Calculate the seasonality as the overall median
-    season <- array(NA,c(1,m))
-    for (si in 1:m){
-      season[si] <- median(ynt[,si], na.rm=TRUE)
-    }
-    if (h>0){
-      f.season <- rep(season,h+m*2)
-      f.season <- as.vector(f.season[(m-ke+1):(m-ke+h)])
-    } else {
-      f.season <- NULL
-    }
-    i.season <- rep(season,ns)
-    i.season <- i.season[(ks+1):(ns*m-ke)] + y*0
-  }
-  if (type=="pure.seasonal"){
+    i.season <- rep(season,ns)[(ks+1):(ns*m-ke)] + y*0
+    f.season <- season[((ks+n+seq_len(h)-1) %% m) + 1]
+  } else {
     # Seasonality is modelled with a pure seasonal smoothing
-    sout <- decomp.opt.sfit(ynt=ynt,costs="MSE",n=n,m=m)
+    sout <- decomp.opt.sfit(ynt=ynt,costs="MSE",n=n,m=m,s=s)
     g <- sout$g
-    if (h>0){
-      season <- sout$season
-      f.season <- rep(season,h+m*2)
-      f.season <- as.vector(f.season[(m-k+1):(m-k+h)])
-      f.season <- rep(season, h %/% m + 1)[1:h]
-    } else {
-      f.season <- NULL
-    }
-    season.sample <- matrix(t(ynt),ncol=1)
+    season.sample <- as.vector(t(ynt))
     season.sample <- season.sample[!is.na(season.sample)]
     i.season <- as.vector(decomp.fun.sfit(season.sample,g,n,m)$ins) + y*0
+    f.season <- rep(sout$season,length.out=h)
+  }
+  f.season <- as.vector(f.season)
+  if (h > 0){
+    if (inherits(y,"ts")){
+      f.season <- ts(f.season,start=tsp(y)[2]+deltat(y),frequency=m)
+    }
+  } else {
+    f.season <- NULL
   }
 
-  # Convert f.season to ts object
-  if (any(class(y) == "ts") && h>0){
-    f.season <- ts(f.season,start=tsp(y)[2]+deltat(y),frequency=m)
-  }
-
+  # Irregular component
   if (decomposition == "multiplicative"){
     resid <- y - (trend*i.season)
   } else {
@@ -174,70 +139,141 @@ decomp <- function(y,m=NULL,s=NULL,trend=NULL,outplot=c(FALSE,TRUE),
   }
 
   # Produce plots
-  if (outplot == TRUE){
-    # Write down the default values of par
-    def.par <- par(no.readonly = TRUE);
-    par(mfrow=c(4,1),mar=c(0,2,0,0),oma=c(2,2,2,2))
-
-    # Series
-    plot(1:n,as.vector(y),type="l",xlab="",xaxt='n',ylab="",yaxt='n',xlim=c(1,n+h),ylim=yminmax.y,xaxs = "i")
-    if (decomposition == "multiplicative"){
-      lines(1:n,trend*i.season,col="red",lty=1)
-    } else {
-      lines(1:n,trend+i.season,col="red",lty=1)
-    }
-    if (h>0){
-      polygon(c(n+1,n+1,n+h,n+h),c(yminmax.y,yminmax.y[2:1]),border=NA,col="gray93")
-    }
-    mtext("Data",side=2,cex=0.8,padj=-2.5)
-    axis(2,cex.axis=0.8)
-    legend("topleft",c("Data","Reconstructed"),lty=c(1,1),lwd=c(1,1),col=c("black","red"),cex=0.8,bty="n",horiz=TRUE)
-
-    # Trend
-    plot(1:n,as.vector(trend),type="l",xlab="",xaxt='n',ylab="",yaxt='n',xlim=c(1,n+h),lty=1,ylim=yminmax.y,xaxs="i")
-    mtext("Trend",side=2,cex=0.8,padj=-2.5)
-    axis(2,cex.axis=0.8)
-    if (h>0){
-      polygon(c(n+1,n+1,n+h,n+h),c(yminmax.y,yminmax.y[2:1]),border=NA,col="gray93")
-    }
-
-    # Season
-    plot(1:n,as.vector(i.season),type="l",xlab="",xaxt='n',ylab="",yaxt='n',xlim=c(1,n+h),lty=1,ylim=yminmax.s,xaxs="i")
-    mtext("Season",side=2,cex=0.8,padj=-2.5)
-    axis(2,cex.axis=0.8)
-    if (h>0){
-      polygon(c(n+1,n+1,n+h,n+h),c(yminmax.s,yminmax.s[2:1]),border=NA,col="gray93")
-      lines((n+1):(n+h),f.season,col="blue")
-    }
-    if (decomposition == "multiplicative"){
-      lines(1:(n+h),rep(1,n+h),lty=2,col="grey")
-    } else {
-      lines(1:(n+h),rep(0,n+h),lty=2,col="grey")
-    }
-
-    # Irregular
-    yminmax.i = yminmax.y-mean(yminmax.y)
-    plot(1:n,as.vector(resid),type="l",xlab="",xaxt='n',ylab="",yaxt='n',xlim=c(1,n+h),lty=1,ylim=yminmax.i,xaxs="i")
-    mtext("Irregular",side=2,cex=0.8,padj=-2.5)
-    text(1,yminmax.i[2],paste("RMSE:",round(sqrt(mean(resid^2)),2)),pos=4,cex=0.8)
-    axis(2,cex.axis=0.8)
-    if (h>0){
-      polygon(c(n+1,n+1,n+h,n+h),c(yminmax.i,yminmax.i[2:1]),border=NA,col="gray93")
-    }
-    lines(1:n,rep(0,n),lty=2,col="grey")
-
-    par(def.par)
+  if (outplot){
+    decompdraw(y=y,trend=trend,i.season=i.season,resid=resid,f.season=f.season,h=h,
+               decomposition=decomposition,season.exist=season.exist,season.pval=season.pval,...)
   }
 
-  return(list(trend=trend,season=i.season,irregular=resid,
-              f.season=f.season,g=g))
+  return(list(trend=trend,season=i.season,irregular=resid,f.season=f.season,g=g,
+              decomposition=decomposition,season.exist=season.exist,season.pval=season.pval))
 
 }
 
+# Internal: plot of decomposed components for decomp
+#' @noRd
+decompdraw <- function(y,trend,i.season,resid,f.season,h,decomposition,
+                       season.exist,season.pval,...){
 
-decomp.opt.sfit <- function(ynt,costs,n,m){
+  n <- length(y)
+  is.mult <- decomposition == "multiplicative"
+
+  # User options
+  dots <- list(...)
+  known <- c("main","xlab","ylab","col","lwd","las","cex.axis","cex.lab")
+  dnames <- names(dots)
+  if (is.null(dnames)){dnames <- rep("",length(dots))}
+  if (any(!(dnames %in% known))){
+    warning("Ignoring unsupported plotting arguments: ",
+            paste(dnames[!(dnames %in% known)],collapse=", "),call.=FALSE)
+  }
+  getopt <- function(nm,default){
+    if (is.null(dots[[nm]])) default else dots[[nm]]
+  }
+  cmp <- rep_len(getopt("col",c("black",brewer.pal(3,"Set1")[1:2])),3)
+  lwd <- getopt("lwd",1)
+  las <- getopt("las",0)
+  cex.axis <- getopt("cex.axis",0.8)
+  cex.lab <- getopt("cex.lab",0.8)
+  panel <- getopt("ylab",c("Data","Trend","Season","Irregular"))
+  if (length(panel) != 4){
+    warning("ylab must contain four labels, one for each panel. Using defaults.",call.=FALSE)
+    panel <- c("Data","Trend","Season","Irregular")
+  }
+  main <- getopt("main",paste0("Classical decomposition (",decomposition,")"))
+  xlab <- getopt("xlab",if (inherits(y,"ts")) "Time" else "Period")
+
+  # Time index, including forecast horizon
+  if (inherits(y,"ts")){
+    tt <- as.vector(time(y))
+    dt <- deltat(y)
+  } else {
+    tt <- 1:n
+    dt <- 1
+  }
+  tf <- tt[n] + seq_len(h)*dt
+  xlim <- c(tt[1],if (h > 0) tf[h] else tt[n])
+
+  # Plot ranges
+  fit <- if (is.mult) trend*i.season else trend+i.season
+  yrange <- function(x,ref=NULL){
+    r <- range(c(x,ref),na.rm=TRUE)
+    if (diff(r) == 0){
+      r <- r + c(-1,1)*max(abs(r[1])*0.1,0.1)
+    }
+    r + 0.04*c(-1,1)*diff(r)
+  }
+  ref.s <- if (is.mult) 1 else 0
+  yl.y <- yrange(c(as.vector(y),as.vector(fit),as.vector(trend)))
+  yl.s <- yrange(c(as.vector(i.season),as.vector(f.season)),ref.s)
+  yl.i <- c(-1,1)*max(diff(yl.y)/2,1.04*abs(as.vector(resid)),na.rm=TRUE)
+
+  # Plot layout, restoring user settings on exit
+  def.par <- par(no.readonly=TRUE)
+  on.exit(par(def.par))
+  layout(matrix(1:4,ncol=1),heights=c(1.4,1,1,1))
+  par(mar=c(0,4.5,0,1),oma=c(3.5,0,3,0))
+
+  panel.frame <- function(ylim,label,last=FALSE){
+    plot(NA,NA,xlim=xlim,ylim=ylim,xaxt="n",yaxt="n",xlab="",ylab="",xaxs="i")
+    if (h > 0){
+      rect(tt[n],ylim[1]-diff(ylim),xlim[2]+dt,ylim[2]+diff(ylim),col="gray93",border=NA)
+    }
+    abline(v=axTicks(1),col="gray90")
+    # Drop labels too close to the panel edges, as they collide with the neighbouring panels
+    at <- axTicks(2)
+    usr <- par("usr")[3:4]
+    at <- at[at >= usr[1] + 0.06*diff(usr) & at <= usr[2] - 0.06*diff(usr)]
+    axis(2,at=at,labels=format(at,scientific=FALSE,trim=TRUE,drop0trailing=TRUE),
+         cex.axis=cex.axis,las=las)
+    mtext(label,side=2,line=3,cex=cex.lab)
+    if (last){
+      axis(1,cex.axis=cex.axis,las=las)
+    }
+    box()
+  }
+
+  # Data and reconstructed series
+  panel.frame(yl.y,panel[1])
+  lines(tt,as.vector(y),col=cmp[1],lwd=lwd)
+  lines(tt,as.vector(fit),col=cmp[2],lwd=lwd)
+  legend("topleft",c("Data","Reconstructed"),lty=1,lwd=lwd,col=cmp[1:2],
+         cex=cex.lab,bty="n",horiz=TRUE)
+
+  # Trend
+  panel.frame(yl.y,panel[2])
+  lines(tt,as.vector(trend),col=cmp[1],lwd=lwd)
+
+  # Season
+  panel.frame(yl.s,panel[3])
+  abline(h=ref.s,lty=2,col="grey")
+  lines(tt,as.vector(i.season),col=cmp[1],lwd=lwd)
+  if (h > 0){
+    lines(c(tt[n],tf),c(i.season[n],as.vector(f.season)),col=cmp[3],lwd=lwd)
+  }
+  if (!is.null(season.exist)){
+    legend("topleft",paste0(if (season.exist) "Seasonal" else "Nonseasonal",
+                            " (p-val: ",round(season.pval,3),")"),bty="n",cex=cex.lab)
+  }
+
+  # Irregular
+  panel.frame(yl.i,panel[4],last=TRUE)
+  abline(h=0,lty=2,col="grey")
+  lines(tt,as.vector(resid),col=cmp[1],lwd=lwd)
+  legend("topleft",paste("RMSE:",format(signif(sqrt(mean(resid^2,na.rm=TRUE)),4))),
+         bty="n",cex=cex.lab)
+
+  # Titles
+  mtext(main,side=3,outer=TRUE,line=1,font=2)
+  mtext(xlab,side=1,outer=TRUE,line=2.3,cex=cex.lab)
+
+  invisible(NULL)
+
+}
+
+decomp.opt.sfit <- function(ynt,costs,n,m,s=1){
   # Optimise pure seasonal model and predict out-of-sample seasonality
-  g0 <- c(0.001,colMeans(ynt,na.rm=TRUE))       # Initialise seasonal model
+  # Initialise seasonal model, with initial states aligned to the first observation (period s)
+  g0 <- c(0.001,colMeans(ynt,na.rm=TRUE)[((s-1):(s+m-2)) %% m + 1])
   season.sample <- matrix(t(ynt),ncol=1)        # Transform back to vector
   season.sample <- season.sample[!is.na(season.sample)]
   opt <- optim(par=g0, decomp.cost.sfit, method = "Nelder-Mead", season.sample=season.sample,
