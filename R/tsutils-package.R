@@ -12,6 +12,7 @@
 #' \item \code{\link{coxstuart}}: Cox-Stuart test for location/dispersion.
 #' \item \code{\link{decomp}}: classical time series decomposition.
 #' \item \code{\link{seasplot}}: construct seasonal plots.
+#' \item \code{\link{seastest}}: seasonality test based on the Friedman test.
 #' \item \code{\link{trendtest}}: test a time series for trend.
 #' }
 #'
@@ -62,7 +63,7 @@
 #' @name tsutils
 #'
 #' @importFrom graphics plot lines par points polygon axis image abline box text boxplot legend mtext rect segments strwidth strheight plot.new plot.window title
-#' @importFrom stats frequency friedman.test qtukey na.exclude sd ts pbinom median density quantile start cor.test deltat end optim time tsp ave
+#' @importFrom stats frequency friedman.test qtukey na.exclude sd ts pbinom median density quantile start cor.test deltat end optim time tsp ave complete.cases
 #' @importFrom forecast ets forecast.ets Arima forecast
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom grDevices colorRampPalette gray rgb rainbow dev.cur dev.new

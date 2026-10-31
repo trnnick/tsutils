@@ -13,6 +13,7 @@ The \pkg{tsutils} package provides functions to support various aspects of time 
 \item \code{\link{coxstuart}}: Cox-Stuart test for location/dispersion.
 \item \code{\link{decomp}}: classical time series decomposition.
 \item \code{\link{seasplot}}: construct seasonal plots.
+\item \code{\link{seastest}}: seasonality test based on the Friedman test.
 \item \code{\link{trendtest}}: test a time series for trend.
 }
 }

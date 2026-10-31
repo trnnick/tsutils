@@ -7,11 +7,13 @@ S3method(print,abc)
 S3method(print,nemenyi)
 S3method(print,nemenyi.sens)
 S3method(print,seasexpl)
+S3method(print,seastest)
 S3method(print,theta)
 S3method(summary,abc)
 S3method(summary,nemenyi)
 S3method(summary,nemenyi.sens)
 S3method(summary,seasexpl)
+S3method(summary,seastest)
 S3method(summary,theta)
 export(Saugment)
 export(Sgroup)
@@ -40,6 +42,7 @@ export(plotThief)
 export(residout)
 export(seasdummy)
 export(seasplot)
+export(seastest)
 export(theta)
 export(theta.thief)
 export(trendtest)
@@ -85,6 +88,7 @@ importFrom(graphics,
 )
 importFrom(stats,
   ave,
+  complete.cases,
   cor.test,
   deltat,
   density,

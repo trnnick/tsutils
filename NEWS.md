@@ -6,6 +6,7 @@
 - Nemenyi: Fixed a few typos in the help file and added some more error trapping.
 - Sthief: Improved input handling and allow to skip levels of the hierarchy. 
 - plotSThief: This is now depreciated and will be removed in following versions of the package. Use the new plotThief instead.
+- seasplot: Separated seasonal testing into new function seastest and improved plotting.
 - New: nemenyi.sens: Run a sensitivity analysis on nemenyi testing results for a range of p-values.
 - New: colour.blend: Emulate alpha-transparency colours for EPS export compatible plots.
 - New: plotS: General function to plot hierarchies from an S-matrix. Calls plotSblock and plotStree.
@@ -15,7 +16,8 @@
 - New: Saugment: Augment an incoherent hierarchy with discrepancy series.
 - New: Sgroup: S matrix from dimensions.
 - New: Smean: Mean (equal or unequal weights) aggregation S matrix.
-- New: gdpchain hierarchical dataset.
+- New: gdpchain: hierarchical dataset of US GDP in chained dollars.
+. New: seastest: seasonal test based on the Friedman test. Before was part of seasplot. 
 
 # VERSION 0.9.4 (12 Nov 2023)
 - Fix for seasplot graphs

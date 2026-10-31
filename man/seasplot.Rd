@@ -15,6 +15,7 @@ seasplot(
   decomposition = c("multiplicative", "additive", "auto"),
   cma = NULL,
   labels = NULL,
+  legend = TRUE,
   ...
 )
 }
@@ -27,7 +28,14 @@ seasplot(
 
 \item{trend}{if \code{TRUE}, then presence of trend is assumed and removed. If \code{FALSE} no trend is assumed. Use \code{NULL} to identify automatically.}
 
-\item{colour}{single colour override for plots.}
+\item{colour}{colour override for plots. A single colour, or a vector of colours, used as follows:
+\itemize{
+\item \code{outplot=1}: colours of the seasons, from oldest to newest. Two or more colours (other than one per season) are interpolated into a gradient.
+\item \code{outplot=2}: colours of the boxes, recycled across seasonal periods.
+\item \code{outplot=3}: colours of the medians and of the subseries, in this order. A single colour is used for both.
+\item \code{outplot=4}: colour of the median. Optionally, three more colours for the 25\%-75\%, 10\%-90\% and min-max bands. Otherwise, the bands are lighter shades of the median colour.
+\item \code{outplot=5}: colour of the highest density. Two or more colours are interpolated into the density palette.
+}}
 
 \item{alpha}{significance level for statistical tests.}
 
@@ -47,26 +55,36 @@ seasplot(
 
 \item{labels}{external labels for the seasonal periods. Use \code{NULL} for none. If \code{length(labels) < m}, then this input is ignored.}
 
-\item{...}{additional arguments passed to plotting functions. For example, use \code{main=""} to replace the title.}
+\item{legend}{if \code{TRUE} a legend is added to the plot, where applicable (\code{outplot=1} and \code{4}). Use \code{FALSE} to omit it, or a keyword such as \code{"topright"} to change its position.}
+
+\item{...}{additional arguments passed to plotting functions. Arguments that refer to the plotted data, \code{col}, \code{lwd}, \code{lty}, \code{pch}, \code{cex}, \code{bg} and \code{type}, are applied to the seasonal lines, boxes or points (\code{col} acts as \code{colour}). Axis arguments (\code{las}, \code{cex.axis}, \code{col.axis}, \code{font.axis}, \code{tck}, \code{tcl}, \code{mgp}) are also applied to the seasonal period axis. Everything else, such as \code{main}, \code{xlab}, \code{ylab}, \code{xlim}, \code{ylim}, \code{xaxt="n"} or \code{axes=FALSE}, is passed to the function that sets up the plot (\code{plot}, \code{boxplot} or \code{image}).}
 }
 \value{
 An object of class \code{seasexpl} containing:
 \itemize{
 \item \code{season}: matrix of (detrended) seasonal elements.
-\item \code{season.exist}: \code{TRUE}/\code{FALSE} results of seasonality test.
-\item \code{season.pval}: p-value of seasonality test (Friedman test).
-\item \code{trend}: CMA estimate (using \code{\link{cmav}}) or \code{NULL} if \code{trend=FALSE}.
+\item \code{season.exist}: \code{TRUE}/\code{FALSE} results of seasonality test, or \code{NULL} if not tested.
+\item \code{season.pval}: p-value of seasonality test (Friedman test), or \code{NULL} if not tested.
+\item \code{trend}: CMA estimate (using \code{\link{cmav}}) or \code{NULL} if no trend was removed.
 \item \code{trend.exist}: \code{TRUE}/\code{FALSE} results of trend test.
 \item \code{trend.pval}: p-value of trend test (Cox-Stuart).
-\item \code{decomposition}: type of decomposition used.
+\item \code{decomposition}: type of decomposition used. \code{"none"} if no trend was removed.
 }
 }
 \description{
-Construct seasonal plots of various styles for a given time series. The series can automatically detrended as needed.
+Construct seasonal plots of various styles for a given time series. The series can be automatically detrended as needed.
+}
+\details{
+The seasonality test is the same as in \code{\link{seastest}}, which can be used to run it without producing a plot.
 }
 \examples{
 seasplot(referrals,outplot=1)
+seasplot(referrals,outplot=1,colour=c("grey","red"),lwd=2,legend="bottomright")
+seasplot(referrals,outplot=3,labels=month.abb,las=2,main="Referrals",ylab="Index")
 
+}
+\seealso{
+\code{\link{seastest}}, \code{\link{decomp}}.
 }
 \author{
 Nikolaos Kourentzes, \email{nikolaos@kourentzes.com}.

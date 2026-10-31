@@ -29,6 +29,7 @@ The **tsutils** package provides functions to support various aspects of time se
 * `coxstuart`: Cox-Stuart test for location/dispersion.
 * `decomp`: classical time series decomposition.
 * `seasplot`: construct seasonal plots.
+* `seastest`: seasonal test based on the Friedman test.
 * `trendtest`: test a time series for trend.
 
 #### Time series modelling:
