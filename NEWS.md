@@ -9,6 +9,7 @@
 - seasplot: Separated seasonal testing into new function seastest and improved plotting.
 - decomp: New argument seastest to remove seasonality only when seastest finds evidence of it, and plotting improvements.
 - theta: Replaced multiplicative argument with season. multiplicative still works, but will be depreciated. Improved plotting.
+- seasdummy: Fixed bug for series that started mid-season.
 - New: nemenyi.sens: Run a sensitivity analysis on nemenyi testing results for a range of p-values.
 - New: colour.blend: Emulate alpha-transparency colours for EPS export compatible plots.
 - New: plotS: General function to plot hierarchies from an S-matrix. Calls plotSblock and plotStree.

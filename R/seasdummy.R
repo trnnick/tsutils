@@ -24,72 +24,61 @@
 #' @export seasdummy
 
 seasdummy <- function(n,m=NULL,y=NULL,type=c("bin","trg"),full=c(FALSE,TRUE)){
-# Create deterministic seasonality dummies
+  # Create deterministic seasonality dummies
 
-    # Default
-    type <- match.arg(type,c("bin","trg"))
-    full <- full[1]
+  # Default
+  type <- match.arg(type,c("bin","trg"))
+  full <- full[1]
 
-    # Get time series information if available
-    if (!is.null(y)){
-      if (is.null(m)){
-        m <- frequency(y)
-      }
-      start <- start(y)
-      # Deal with fractional seaosnalities
-      isdd <-length(start)==2
-      if (isdd){
-        start <- start[2]
-      } else {
-        start <- start %% 1
-      }
-    } else {
-      start <- 1
-      isdd <- TRUE
-    }
-
-    if (start >= n){
-      n.sim <- n + start
-    } else {
-      n.sim <- n
-    }
-
+  # Get time series information if available
+  if (!is.null(y)){
     if (is.null(m)){
-      stop("Seasonality not specified.")
+      m <- frequency(y)
     }
-
-    # Create dummies
-    if ((m %% 1) == 0){
-      if (type == "bin"){
-          x <- matrix(rep(diag(rep(1,m)),ceiling(n.sim/m)),ncol=m,byrow=TRUE)[1:n.sim,,drop=FALSE]
-      } else { # trg
-          x <- array(0,c(n.sim,m))
-          t <- 1:n.sim
-          for (i in 1:(m/2)){
-              x[,1+(i-1)*2] <- cos((2*t*pi*i)/m+(2*pi*(start-isdd))/m) # Added phase shift for start
-              x[,2+(i-1)*2] <- sin((2*t*pi*i)/m+(2*pi*(start-isdd))/m)
-          }
-      }
-      # Trim co-linear dummy
-      if (full==FALSE){
-          x <- x[,1:(m-1),drop=FALSE]
-      }
+    start <- start(y)
+    # Deal with fractional seaosnalities
+    isdd <-length(start)==2
+    if (isdd){
+      start <- start[2]
     } else {
-      # Fractional seasonality
-      x <- array(0,c(n.sim,2))
-      t <- 1:n.sim
-      x[,1] <- cos((2*t*pi)/m+(2*pi*(start-isdd))) # Added phase shift for start
-      x[,2] <- sin((2*t*pi)/m+(2*pi*(start-isdd)))
+      start <- start %% 1
     }
+  } else {
+    start <- 1
+    isdd <- TRUE
+  }
 
-    # Shift for start
-    if (start > 1 & type == "bin"){ # For type=="trg" it is handled with a phase shift
-        x <- rbind(x[start:n, ,drop=FALSE], x[1:(start - 1), ,drop=FALSE])
+  if (is.null(m)){
+    stop("Seasonality not specified.")
+  }
+
+  # Create dummies
+  if ((m %% 1) == 0){
+    if (type == "bin"){
+      # Seasonal period of each observation, starting from period start
+      p <- ((start - 1) + seq_len(n) - 1) %% m + 1
+      x <- diag(1,m)[p,,drop=FALSE]
+    } else { # trg
+      x <- array(0,c(n,m))
+      # Shift time for start, so that every harmonic has the correct phase
+      t <- 1:n + (start - isdd)
+      for (i in 1:(m/2)){
+        x[,1+(i-1)*2] <- cos((2*t*pi*i)/m)
+        x[,2+(i-1)*2] <- sin((2*t*pi*i)/m)
+      }
     }
+    # Trim co-linear dummy
+    if (full==FALSE){
+      x <- x[,1:(m-1),drop=FALSE]
+    }
+  } else {
+    # Fractional seasonality
+    x <- array(0,c(n,2))
+    t <- 1:n
+    x[,1] <- cos((2*t*pi)/m+(2*pi*(start-isdd))) # Added phase shift for start
+    x[,2] <- sin((2*t*pi)/m+(2*pi*(start-isdd)))
+  }
 
-    # If n.sim is larger, just retain n observations
-    x <- x[1:n,,drop=FALSE]
-
-    return(x)
+  return(x)
 
 }
